@@ -1,0 +1,96 @@
+@import url('http://fonts.cdnfonts.com/css/ostrich-sans-2');
+@import url('http://fonts.cdnfonts.com/css/gobold');
+@import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Cambo&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Jost:wght@400;500;600;700&display=swap');
+
+
+// font sizes
+$rem: 16px;
+
+$h1_D: 36px;
+$h1_LH_D: 39px;
+
+$h2_D: 30px;
+$h2_LH_D: 22px;
+
+$h3_D: 24px;
+$h3_LH_D: 20px;
+
+$p_D: 16px;
+$p_LH_D: 16px;
+
+$h1_M: 30px;
+$h1_LH_M: 33px;
+
+$h2_M: 24px;
+$h2_LH_M: 20px;
+
+$h3_M: 20px;
+$h3_LH_M: 18px;
+
+$p_M: 16px;
+$p_LH_M: 16px;
+
+// font families
+$bebas: 'Bebas Neue', cursive;
+$cambo: 'Cambo', serif;
+$jost: 'Jost', serif;
+$gobold: 'Gobold', sans-serif;
+$goboldhollow: 'Gobold Hollow Bold', sans-serif;
+$ostrich: 'Ostrich Sans', sans-serif;
+
+
+// colors 
+$gray: #969696;
+$lightGray: #F1F1F1;
+$buttonGray: #D8D8D8;
+$productBackground: #EDEDED;
+
+
+// components
+@mixin buttonStyle {
+	font-size: 100%;
+	letter-spacing: 1px;
+	width: 100px;
+	height: 35px;
+	border-radius: 10px;
+	font-family: $bebas;
+	border: none;
+	color: black;
+	background-color: $buttonGray;
+	font-size: $h3_D;
+	padding: 0;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	
+
+	@media screen and (max-width: 991px) {
+		font-size: $h3_M
+	}
+}
+ 
+
+
+// font-family: 'Gobold', sans-serif;
+// font-family: 'Gobold Bold', sans-serif;
+// font-family: 'Gobold CUTS', sans-serif;
+// font-family: 'Gobold Extra1', sans-serif;
+// font-family: 'Gobold Extra2', sans-serif;
+// font-family: 'Gobold High Bold', sans-serif;
+// font-family: 'Gobold High', sans-serif;
+// font-family: 'Gobold High Thin', sans-serif;
+// font-family: 'Gobold Hollow Bold', sans-serif;
+// font-family: 'Gobold Hollow', sans-serif;
+// font-family: 'Gobold Thin Light', sans-serif;
+// font-family: 'Gobold Lowplus', sans-serif;
+// font-family: 'Gobold Thin', sans-serif;
+// font-family: 'Gobold Uplow', sans-serif;
+
+// font-family: 'Bebas Neue', cursive;
+// font-family: 'Cambo', serif;
+
+// font-family: 'Ostrich Sans', sans-serif;
+// font-family: 'Ostrich Sans Inline', sans-serif;
+// font-family: 'Ostrich Sans Dashed', sans-serif;
+// font-family: 'Ostrich Sans Rounded', sans-serif;

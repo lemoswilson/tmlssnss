@@ -1,0 +1,119 @@
+@import '../../style/variables';
+
+html {
+	.promotion {
+		display: flex;	
+		flex-direction: column;
+		align-items: center;
+		justify-content: center;
+		// border: 1px solid black;
+		margin-top: 5vh;
+
+		height: 87%;
+		width: inherit;
+		// justify-self: center;
+
+		.promoGrid {
+			display: grid;
+			width: 1400px;
+			max-width: 100vw;
+			grid-template-columns: repeat(2, 1fr);
+			grid-gap: 0 60px;
+			height: inherit;
+			// border: 1px solid red;
+			align-items: center;
+
+			@media screen and (max-width: 991px){
+				// height: 100vh;
+				// min-height: inherit;
+				grid-template-columns: none;
+				grid-gap: 30px;
+				grid-template-rows: repeat(2, 1fr);
+			}
+
+
+			.gridItem {
+				display: flex;
+				flex-direction: column;
+				height: 100%;
+				// border: 1px solid green;
+
+				@media screen and (max-width: 991px) {
+					justify-content: center;
+					align-items: center;
+				}
+
+				.dummy {
+					height: 30%;
+					width: 100%;
+
+					@media screen and (max-width: 991px) {
+						display: none;
+					}
+
+				}
+
+				.promo {
+					height: fit-content;
+					width: 100%;
+					background-color: $lightGray;
+					display: flex;
+					flex-direction: row;
+
+					// display: grid;
+					// grid-template-columns: 50% 50%;
+
+					@media screen and (max-width: 991px) {
+						width: 80%;
+					}
+
+					.tosqueira {
+						width: 50%;
+						height: auto;
+						max-width: 50%;
+						order: 2;
+					}
+
+					.promoMessage {
+						width: 50%;
+						order: 1;
+						display: flex;
+						flex-direction: column;
+						justify-content: center;
+						align-items: center;
+
+						h1 {
+							text-align: center;
+							font-family: $bebas;
+							margin: 0;
+						}
+
+						p {
+							text-align: center;
+							font-family: $cambo;
+							margin: 0;
+						}
+
+
+					}
+
+					.downup {
+						width: 50%;
+						height: auto;
+						max-width: 50%;
+						order: 2;
+					}
+				}
+			}
+		}	
+		// width: 1
+
+		@media screen and (min-width: 992px) {
+			min-height: 570px;
+		}
+
+		@media screen and (min-width: 1600px) {
+			min-height: 723px;
+		}
+	}
+}

@@ -1,0 +1,60 @@
+@import './variables';
+
+html {
+
+	ul {
+		padding: 0;
+		margin: 0;
+	}
+
+	li {
+		list-style: none;
+	}
+
+	font-size: $rem;
+
+	h3 {
+		font-size: $h3_D;
+		line-height: $h3_LH_D;
+	}
+
+	h2 {
+		font-size: $h3_D;
+		line-height: $h3_LH_D;
+	}
+
+	h1 {
+		font-size: $h1_D;
+		line-height: $h1_LH_D;
+	}
+
+	p {
+		font-size: $p_D;
+		line-height: $p_LH_D;
+	}
+
+	@media screen and (max-width: 991px) {
+
+		h3 {
+			font-size: $h3_M;
+			line-height: $h3_LH_M;
+		}
+	
+		h2 {
+			font-size: $h3_M;
+			line-height: $h3_LH_M;
+		}
+	
+		h1 {
+			font-size: $h1_M;
+			line-height: $h1_LH_M;
+		}
+
+		p {
+			font-size: $p_M;
+			line-height: $p_LH_M;
+		}
+
+	}
+
+}

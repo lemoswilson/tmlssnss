@@ -1,0 +1,152 @@
+@import '../../style/variables';
+
+html {
+
+	.wrapper {
+		position: fixed;
+		top: 0;
+		height: 145px;
+		width: 100vw;
+		z-index: 77;
+		border-bottom: 1px solid rgba($color: #cfcfcf, $alpha: 1.0);
+
+		// display: none;
+
+		.message {
+			height: 36px;
+			width: 100%;
+			display: flex;
+			align-items: center;
+			justify-content: center;
+			text-align: center;
+			font-family: $jost;
+			color: white;
+			background-color: black;
+		}
+
+		.header {
+			background-color: white;
+			height: 109px;
+			display: flex;
+			flex-direction: column;	
+			align-items: center;
+
+			.infoButtons {
+				width: 100vw;
+				max-width: 1200px;
+				align-items: center;
+				height: 70px;
+				// border: 1px solid black;
+
+				display: grid;
+				grid-template-columns: 25% 50% 25%;
+
+				@media screen and (min-width: 1600px){
+					max-width: 1366px;
+				}
+				
+
+				.menu {
+					display: none;
+					margin-left: 5px;
+				}
+
+				.userInfo {
+					margin-left: 5px;
+					font-family: $bebas;
+					display: flex;
+					flex-direction: row;
+				}
+
+				.tmlssnss {
+					display: flex;
+					align-items: center;
+					justify-content: center;
+					h2 {
+						font-family: $cambo;
+						letter-spacing: 4px;
+						.tmlGray {
+							color: $gray;
+						}
+					}
+				}
+
+				.cartInfo {
+					justify-self: flex-end;
+					display: flex;
+					flex-direction: row;
+					margin-right: 5px;
+
+					.search {
+						margin-right: 5px;
+					}
+				}
+			}
+
+			.navBar {
+				display: flex;
+				flex-direction: column;
+				width: 100vw;
+				height: 39px;
+				justify-content: center;
+				align-items: center;
+				border-top: 1px solid rgba($color: #cfcfcf, $alpha: 1.0);
+
+				.navLinks {
+					width: 630px;
+					display: flex;
+					flex-direction: row;
+					// justify-content: center;
+					justify-content: space-between;
+					
+					li {
+						a {
+							text-decoration: none;
+							color: black;
+						}
+						width: 100px;
+						font-family: $bebas;
+					}
+
+				}
+			}
+			
+		}
+	}
+
+	@media screen and (max-width: 991px) {
+		.wrapper {
+			height: 56px;
+			border-bottom: none;
+
+			.message {
+				display: none;
+			}
+
+			.header {
+				height: 56px;
+	
+				.infoButtons {
+					height: 55px;
+					border-bottom: 1px solid rgba($color: #cfcfcf, $alpha: 1.0);
+					position: sticky;
+					top: 0;
+
+					.menu {
+						display: flex;
+					}
+
+					.userInfo {
+						display: none;
+					}
+				}
+
+				.navBar {
+					display: none;
+				}
+			}
+		}
+
+
+	}
+}

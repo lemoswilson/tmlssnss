@@ -1,0 +1,136 @@
+@import '../../style/variables';
+
+html {
+	.follow {
+		height: inherit;
+		max-height: inherit;
+		width: 100%;
+		max-width: 1400px;
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+
+		.message {
+			margin-top: 30px;
+			display: flex;
+			justify-content: center;
+			align-items: center;
+			text-align: center;
+			font-family: $cambo;
+			line-height: $h2_LH_D;
+
+			@media screen and (max-width: 991px) {
+				display: none;
+			}
+
+		}
+
+		.hide {
+			@media screen and (max-width: 991px) {
+				display: none;
+			}
+		}
+
+		.imageGrid {
+			display: grid;
+			grid-template-columns: repeat(5, 1fr);
+			grid-column-gap: 1vw;
+			width: inherit;
+			min-width: inherit;
+			height: calc(min(520px, 47vh));
+			margin-top: 60px;
+
+			@media screen and (max-width: 991px){
+				grid-template-columns: none;
+				grid-column-gap: 0;
+				display: flex;
+				flex-direction: column;
+				justify-content: center;
+				align-items: center;
+				height: 460px;
+			}
+
+			.gridItem {
+				display: flex;
+				flex-direction: column;
+
+				@media screen and (max-width: 991px) {
+					flex-direction: row;
+					height: 200px;
+					width: 80%;
+					margin-top: 30px;
+				}
+
+				.image {
+					width: 100%;
+					height: auto;
+
+					@media screen and (max-width: 991px) {
+						// width: 50%;
+						height: 100%;
+						width: auto;
+					}
+				}
+
+				.wrap {
+					display: none;
+
+					@media screen and (max-width: 991px) {
+						display: flex;
+					}
+					flex-direction: column;
+					// width: 100%;
+
+					align-items: center;
+					justify-content: center;
+
+					margin: auto;
+
+					.messageIn {
+						text-align: center;
+						font-family: $cambo;
+	
+					}
+
+					.arrota {
+
+					}
+	
+				}
+
+			}
+
+			.hide {
+				@media screen and (max-width: 991px) {
+					display: none;
+				}
+			}
+
+			.start {
+				justify-content: flex-start;
+
+				@media screen and (max-width: 991px) {
+					justify-content: flex-end;
+				}
+			}
+
+			.center {
+				justify-content: center;
+
+				@media screen and (max-width: 991px) {
+					justify-content: flex-end;
+				}
+			}
+
+			.end {
+				justify-content: flex-end;
+
+				@media screen and (max-width: 991px) {
+					justify-content: flex-start;
+				}
+			}
+
+
+		}
+	}
+}

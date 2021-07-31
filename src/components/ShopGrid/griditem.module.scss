@@ -1,0 +1,61 @@
+@import '../../style/variables';
+
+html {
+
+	.item {
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+		justify-content: flex-start;
+		cursor: pointer;
+	
+		.background {
+			height: fit-content;
+			width: inherit;
+			display: flex;
+			align-items: center;
+			justify-content: center;
+			background-color: $productBackground;
+			border-radius: 20px;
+			position: relative;
+	
+			.image {
+				width: 100%;
+				height: auto;
+			}
+	
+			.cart {
+				position: absolute;
+				top: 0;
+				left: 0;
+				height: fit-content;
+				height: 90px;
+				display: flex;
+				flex-direction: row;
+				justify-content: flex-end;
+				width: 100%;
+
+				img {
+					margin-top: 5px;
+					margin-right: 5px;
+					// cursor: pointer;
+				}
+			}
+	
+		}
+	
+		.info {
+			font-family: $jost;	
+			font-weight: 400;
+			
+			.name {
+				margin-top: 5px;
+				text-align: center;
+			}	
+	
+			.price {
+				text-align: center;
+			}
+		}
+	}
+}

@@ -1,0 +1,98 @@
+@import '../../style/variables';
+
+html {
+	.hero {
+		overflow: hidden;
+		background-color: white;
+		height: 100vh;
+
+		.headroom {
+			height: 145px;
+			background-color: white;
+		}
+
+		@media screen and (min-width: 992px) {
+			min-height: 570px;
+		}
+
+		@media screen and (min-width: 1400px) {
+			min-height: (600px + 145px);
+		}
+
+		// @media screen and (min-width: 1600px) {
+		@media screen and (min-width: 1600px) {
+			min-height: (750px + 145px);
+		}
+
+		@media screen and (max-width: 991px) {
+			height: calc(87vh - 97px);
+			min-height: 570px;
+		}
+
+	}
+
+	.latest {
+		overflow: hidden;
+		height: calc(100vh - 145px);
+		// border: 1px solid black;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		min-height: fit-content;
+
+		@media screen and (max-width: 992px) {
+			height: auto;
+			padding-bottom: 10vh;
+			min-height: 570px;
+		}
+
+		@media screen and (min-width: 1400px) {
+			min-height: 723px;
+		}
+
+	}
+
+	.promotions {
+		overflow: hidden;
+		height: calc(100vh - 145px);
+		display: flex;
+		flex-direction: column;
+		justify-content: center;
+
+		@media screen and (max-width: 992px) {
+			height: fit-content;
+			padding-bottom: 10vh;
+		}
+
+		@media screen and (min-width: 1400px) {
+			min-height: 723px;
+		}
+		
+	}
+
+	.follow {
+		height: calc(100vh - 145px);
+		min-height: 723px;
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+		justify-content: flex-end;
+
+		@media screen and (max-width: 992px) {
+			// padding-bottom: 5vh;
+			justify-content: center;
+			padding-bottom: 10vh;
+			height: auto;
+		}
+
+	}
+
+	@media screen and (max-width: 991px) {
+		.hero {
+			.headroom {
+				height: 56px;
+			}
+
+		}
+	}
+}
