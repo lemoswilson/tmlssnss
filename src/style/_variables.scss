@@ -45,6 +45,7 @@ $gray: #969696;
 $lightGray: #F1F1F1;
 $buttonGray: #D8D8D8;
 $productBackground: #EDEDED;
+$red: rgba(194, 60, 105, 0.2);
 
 
 // components
@@ -63,7 +64,7 @@ $productBackground: #EDEDED;
 	display: flex;
 	align-items: center;
 	justify-content: center;
-	
+	cursor: pointer;	
 
 	@media screen and (max-width: 991px) {
 		font-size: $h3_M

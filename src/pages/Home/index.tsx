@@ -27,6 +27,12 @@ const Home: React.FC<HomeProps> = ({user}) => {
 		getLatest()
 	}, [])
 
+	// useEffect(() => {
+	// 	commerce.products.retrieve("prod_RqEv5xXdgq5Zz4").then(product => {
+	// 		console.log('the product is ', product.name, product);
+	// 	})
+	// }, [])
+
 	return (
 		<React.Fragment>
 			<div className={styles.hero}>

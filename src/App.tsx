@@ -10,6 +10,7 @@ import SignUp from './pages/SignUp';
 import Shop from './pages/Shop';
 import Item from './pages/Item';
 
+
 interface Store {
   products: any[]
 }
@@ -50,6 +51,7 @@ function App() {
   return (
     <React.Fragment>
       <BrowserRouter>
+
         <NavBar setMenuState={setMenuState} message={'sales message'} userInfo={{user, setUser}}/>
         <Switch>
           <Route path={'/login'} render={() => (<Login user={user}/>)} />

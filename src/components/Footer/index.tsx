@@ -15,49 +15,53 @@ import downarrow from '../../assets/svg/downArrow.svg';
 import master from '../../assets/svg/masterCard.svg';
 import amex from '../../assets/svg/american-express.svg';
 import visa from '../../assets/svg/visa.svg'
+import useLinksToggler from '../../hooks/useLinksToggler';
 
-interface categories {
+export interface categories {
 	about: boolean,
 	customer: boolean,
 	contact: boolean,
 }
 
 const Footer: React.FC = () => {
-	const [Open, setOpen] = useState<categories>({
-		about: false,
-		customer: false,
-		contact: false,
-	});
-	const [off, setOff] = useState<categories>({
-		about: false,
-		customer: false,
-		contact: false,
-	});
-
 	const location = useLocation();
 	const { windowWidth } = useWidth()	;
 
-    const openClose = (category: keyof categories) => {
-		if (windowWidth > 991) return;
+	const { Open, off, openClose } = useLinksToggler(windowWidth);
 
-        if (Open[category]) {
-            setOff(state => ({
-				...state,
-				[category]: true,
-			}))
-            setTimeout(() => {
-                setOff(state => ({
-					...state,
-					[category]: false,
-				}));
-            }, 330);
-        }
+	// const [Open, setOpen] = useState<categories>({
+	// 	about: false,
+	// 	customer: false,
+	// 	contact: false,
+	// });
+	// const [off, setOff] = useState<categories>({
+	// 	about: false,
+	// 	customer: false,
+	// 	contact: false,
+	// });
 
-        setOpen(state => ({
-			...state,
-			[category]: !state[category]
-		}))
-    }
+
+    // const openClose = (category: keyof categories) => {
+	// 	if (windowWidth > 991) return;
+
+    //     if (Open[category]) {
+    //         setOff(state => ({
+	// 			...state,
+	// 			[category]: true,
+	// 		}))
+    //         setTimeout(() => {
+    //             setOff(state => ({
+	// 				...state,
+	// 				[category]: false,
+	// 			}));
+    //         }, 330);
+    //     }
+
+    //     setOpen(state => ({
+	// 		...state,
+	// 		[category]: !state[category]
+	// 	}))
+    // }
 
 	const toggleAbout = Open.about
     ? `${styles.open}`

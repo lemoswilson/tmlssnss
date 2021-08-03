@@ -5,6 +5,7 @@ import { Product } from '@chec/commerce.js/types/product';
 import { useState } from 'react';
 import cart from '../../assets/svg/addcart.svg';
 import useWidth from '../../hooks/useWidth';
+import { useEffect } from 'react';
 
 interface GridItemProps {
 	item: Product,
@@ -16,6 +17,10 @@ const GridItem: React.FC<GridItemProps> = ({item}) => {
 	const history = useHistory();
 	const display = hover || windowWidth < 992 ? {display: 'flex'} : {display: 'none'};
 	const dimension = windowWidth > 992 ? '25px' : '17%';
+
+	useEffect(() => {
+		console.log(item.name, item);
+	},[])
 
 	function show(){
 		setHover(true);
@@ -30,7 +35,7 @@ const GridItem: React.FC<GridItemProps> = ({item}) => {
 	}
 
 	function sendToItem(){
-		history.push(`/shop/item/${item.id}`)
+		history.push(`/item/${item.id}`)
 	}
 
 	return (
