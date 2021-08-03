@@ -37,6 +37,7 @@ html {
 				.productImage {
 					width: 80%;
 					height: auto;
+					cursor:  pointer;
 				}
 
 				.info {
@@ -46,10 +47,12 @@ html {
 					.name {
 						margin-top: 5px;
 						text-align: center;
+						cursor: pointer;
 					}	
 
 					.price {
 						text-align: center;
+						cursor: pointer;
 					}
 				}
 			}

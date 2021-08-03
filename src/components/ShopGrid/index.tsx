@@ -12,7 +12,11 @@ export function cleanPath(path: string){
 	return path.split('/').filter(v => v !== '')
 }
 
-const ShopGrid: React.FC = () => {
+interface ShopGridProps {
+	addToCart: (product: string, quantity: number) => void,
+}
+
+const ShopGrid: React.FC<ShopGridProps> = ({ addToCart }) => {
 	const location = useLocation();
 	const [items, setItems] = useState<Product[]>([])
 	const [vacuo, setVacuo] = useState(false);
@@ -42,10 +46,10 @@ const ShopGrid: React.FC = () => {
 		})
 	}, [location])
 
-	useEffect(() => {
-		console.log('items are', items)
-		console.log('clean path is', cleanPath(location.pathname));
-	}, [items])
+	// useEffect(() => {
+	// 	console.log('items are', items)
+	// 	console.log('clean path is', cleanPath(location.pathname));
+	// }, [items])
 	
 	return (
 		<div className={styles.shop}>
@@ -53,7 +57,7 @@ const ShopGrid: React.FC = () => {
 				items.length > 0 ? 
 				(
 					<ul className={styles.grid}>
-						{ items.map(item => <GridItem item={item} />) }	
+						{ items.map(item => <GridItem addToCart={addToCart} item={item} />) }	
 					</ul>
 				)
 				: vacuo

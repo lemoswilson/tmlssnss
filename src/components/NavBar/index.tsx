@@ -39,7 +39,7 @@ const NavBar: React.FC<NavBar> = ({setMenuState, message, userInfo}) => {
 			<header className={styles.header}>
 				<div className={styles.infoButtons}>
 					<div className={styles.menu}>
-						<img src={MenuImg} alt="menu" width={'25px'} height={'25px'} />
+						<img onClick={() => setMenuState(state => !state)} src={MenuImg} alt="menu" width={'25px'} height={'25px'} />
 					</div>
 					<div className={styles.userInfo}>
 						{ greetings }

@@ -9,18 +9,19 @@ import { useEffect } from 'react';
 
 interface GridItemProps {
 	item: Product,
+	addToCart: (product: string, quantity: number) => void,
 }
 
-const GridItem: React.FC<GridItemProps> = ({item}) => {
+const GridItem: React.FC<GridItemProps> = ({item, addToCart}) => {
 	const [hover, setHover] = useState(false);
 	const { windowWidth } = useWidth();
 	const history = useHistory();
 	const display = hover || windowWidth < 992 ? {display: 'flex'} : {display: 'none'};
 	const dimension = windowWidth > 992 ? '25px' : '17%';
 
-	useEffect(() => {
-		console.log(item.name, item);
-	},[])
+	// useEffect(() => {
+	// 	console.log(item.name, item);
+	// },[])
 
 	function show(){
 		setHover(true);
@@ -30,8 +31,9 @@ const GridItem: React.FC<GridItemProps> = ({item}) => {
 		setHover(false);
 	}
 
-	function addToCart(e: React.MouseEvent){
+	function handleAddToCart(e: React.MouseEvent){
 		e.stopPropagation()
+		addToCart(item.id, 1);
 	}
 
 	function sendToItem(){
@@ -43,7 +45,7 @@ const GridItem: React.FC<GridItemProps> = ({item}) => {
 			<div onMouseEnter={show} onMouseLeave={hide} className={styles.background}>
 				<img className={styles.image}  src={item.assets[0].url} alt={item.name} />
 				<div style={display} className={styles.cart}>
-					<img onClick={addToCart} src={cart} alt={cart} width={dimension} height={dimension} />
+					<img onClick={handleAddToCart} src={cart} alt={cart} width={dimension} height={dimension} />
 				</div>
 			</div>	
 			<div className={styles.info}>

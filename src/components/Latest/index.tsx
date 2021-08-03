@@ -21,6 +21,10 @@ const Latest: React.FC<LatestProps> = ({products}) => {
 			setGridSize(6)
 		}
 	}, [windowWidth])
+
+	function sendToPage(id: string){
+		window.location.href = `/item/${id}`;
+	}
 	
 	return (
 		<section className={styles.latest}>
@@ -30,16 +34,16 @@ const Latest: React.FC<LatestProps> = ({products}) => {
 				{ [...Array(Math.min(gridSize, products.length)).keys()].map(v => {
 					return (
 						<div key={v} className={styles.gridItem}>
-							<img 
+							<img onClick={() => sendToPage(products[v].id)} 
 								src={products[v].assets[0].url} 
 								alt={products[v].name} 
 								className={styles.productImage} 
 							/>
 							<div className={styles.info}>
-								<div className={styles.name}>
+								<div onClick={() => sendToPage(products[v].id)} className={styles.name}>
 									{ products[v].name }
 								</div>
-								<div className={styles.price}>
+								<div onClick={() => sendToPage(products[v].id)} className={styles.price}>
 									{ products[v].price.formatted_with_symbol }
 								</div>
 							</div>

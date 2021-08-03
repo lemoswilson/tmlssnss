@@ -11,7 +11,8 @@ import useHeight from '../../hooks/useHeight';
 import arrow from '../../assets/svg/arrow2.svg';
 
 interface ItemProps {
-	user: User
+	user: User,
+	addToCart: (product: string, quantity: number) => void,
 }
 
 interface params {
@@ -20,7 +21,7 @@ interface params {
 
 type sizes = 's' | 'm' | 'g';
 
-const Item: React.FC<ItemProps> = ({user}) => {
+const Item: React.FC<ItemProps> = ({user, addToCart}) => {
 	const params = useParams<params>();
 	const history = useHistory();
 	const location = useLocation();
@@ -72,7 +73,7 @@ const Item: React.FC<ItemProps> = ({user}) => {
 
 	const Related = relatedProducts ? (
 		<div style={window.innerHeight > window.innerWidth && window.innerWidth > 1000 ? {justifyContent: 'space-between', marginTop: 0, maxHeight: '600px'} : {}} className={styles.related}>
-		{ relatedProducts.map(relatedItem => (
+		{ relatedProducts.slice(0, 3).map(relatedItem => (
 			<div key={relatedItem.id} className={styles.relatedItem}>
 				<img onClick={() => toPage(`/item/${relatedItem.id}`)} src={relatedItem.assets[0].url} alt={relatedItem.name} />
 				<p onClick={() => toPage(`/item/${relatedItem.id}`)} >{relatedItem.name}</p>
@@ -130,7 +131,7 @@ const Item: React.FC<ItemProps> = ({user}) => {
 					</div>
 					<div className={styles.buttons}>
 						<div className={`${styles.button} ${styles.red}`}>Buy</div>
-						<div className={styles.button}>Add to Cart</div>
+						<div onClick={() => { addToCart(params.id, 1) }} className={styles.button}>Add to Cart</div>
 					</div>
 				</div>
 					{

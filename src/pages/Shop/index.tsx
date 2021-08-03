@@ -6,10 +6,12 @@ import { User } from '../../App';
 import ShopGrid from '../../components/ShopGrid';
 
 interface ShopProps {
-	user: User
+	user: User,
+	addToCart: (product: string, quantity: number) => void,
+
 }
 
-const Shop: React.FC<ShopProps> = ({user}) => {
+const Shop: React.FC<ShopProps> = ({ user, addToCart }) => {
 
 	const activeStyle = {color: 'black', textDecoration: 'underline'};
 
@@ -56,7 +58,7 @@ const Shop: React.FC<ShopProps> = ({user}) => {
 						</ul>
 					</div>
 					<div className={styles.gridItems}>
-						<ShopGrid/>
+						<ShopGrid addToCart={addToCart}/>
 						{/* <Switch>
 							<Route path={'/shop/categories/:type'} render={() => <ShopGrid/>}/>
 							<Route path={'/shop/search/:search'} render={() => <ShopGrid/>}/>
