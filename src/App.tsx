@@ -14,6 +14,10 @@ import Overlay from './components/Overlay';
 import useBlockOverflow from './hooks/useBlockOverflow';
 import Checkout from './pages/Checkout';
 import { Cart } from '@chec/commerce.js/types/cart';
+import { CheckoutCapture } from '@chec/commerce.js/types/checkout-capture';
+import { CheckoutCaptureResponse } from '@chec/commerce.js/types/checkout-capture-response'
+import { loadStripe } from '@stripe/stripe-js';
+
 
 
 interface Store {
@@ -30,6 +34,8 @@ function App() {
 
   const [isMenuOpen, setMenuState] = useState(false);
   const [cart, setCart] = useState<Cart>();
+  const [order, setOrder] = useState<CheckoutCaptureResponse>()
+  const [errorMessage, setErrorMessage] = useState<string>();
   const [user, setUser] = useState<User>({
     isAuthenticated: false,
     token: '',
@@ -50,10 +56,6 @@ function App() {
     fetchCart();
   }, [])
 
-  useEffect(() => {
-    console.log(cart);
-  }, [cart])
-
   async function handleAddToCart(product: string, quantity: number) {
     const { cart } = await commerce.cart.add(product, quantity);
     setCart(cart);
@@ -72,6 +74,21 @@ function App() {
   async function handleEmptyCart(){
     const { cart } = await commerce.cart.empty();
     setCart(cart);
+  }
+
+  async function handleCaptureCheckout(checkoutTokenId: string, newOrder: CheckoutCapture){
+    try {
+      const incomingOrder = await commerce.checkout.capture(checkoutTokenId, newOrder);
+      setOrder(incomingOrder)
+      refreshCart()
+    } catch (error) {
+      setErrorMessage(error.data.error.message)
+    }
+  }
+
+  async function refreshCart() {
+    const newCart = await commerce.cart.refresh();
+    setCart(newCart);
   }
 
    

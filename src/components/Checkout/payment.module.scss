@@ -1,5 +1,70 @@
 @import '../../style/variables';
 
 html {
-	
+	.payment {
+		width: 95%;
+		max-width: 650px;
+		margin: 40px auto;
+		// margin-top: 40px;
+
+		.summary {
+			h3 {
+				font-family: $jost;
+				font-weight: 300;
+			}
+
+			.order {
+				height: 270px;
+				overflow: scroll;
+
+				.item {
+					margin-top: 15px;
+					display: grid;
+					grid-template-columns: 150px 75px 75px;
+					grid-column-gap: 50px;
+					font-family: $jost;
+					margin-left: 20px;
+
+					.name, .quantity, .price {
+						font-family: inherit;
+						text-align: center;
+						display: flex;
+						justify-content: center;
+						align-items: center;
+					}
+
+				}
+			}
+		}
+
+		.payment {
+			margin-top: 20px;
+
+			h3 {
+				margin: 0;
+				font-family: $jost;
+				font-weight: 300;
+			}
+
+			.paymentInputs {
+				margin: auto;
+				margin-top: 20px;
+				display: flex;
+				flex-direction: row;
+				background-color: $lightGray;
+				width: 320px;
+				height: 40px;
+				border-radius: 10px;
+
+				.cardElement {
+					width: 300px;
+					margin: auto;
+					// height: 40px;
+					// display: flex;
+					// // align-items: center;
+					// // justify-content: center;
+				}
+			}
+		}
+	}	
 }

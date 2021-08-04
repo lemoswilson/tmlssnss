@@ -86,7 +86,6 @@ html {
 
 			@media screen and (max-width: 1366px) {
 				grid-template-columns: 420px auto 125px;
-				// margin-top: 40;
 			}
 
 			@media screen and (max-width: 991px) {
@@ -101,13 +100,10 @@ html {
 			.media {
 				height: inherit;
 				min-height: inherit;
-				// border: 1px solid green;
 
 				@media screen and (max-width: 991px) {
-					// height: 500px;
 					height: fit-content;
 					width: 100%;
-					// border: 1px solid red;
 					min-height: 0;
 					margin-top: 20px;
 				}
@@ -116,7 +112,6 @@ html {
 					display: flex;
 					flex-direction: row;
 					width: 90%;
-					// border: 1px solid red;
 					margin: auto;
 
 					@media screen and (max-width: 991px) {
@@ -138,7 +133,6 @@ html {
 					}
 
 					.image {
-						// width: 250px;
 						width: 100%;
 						background-color: $lightGray;
 						border-radius: 15px;
@@ -231,7 +225,6 @@ html {
 				@media screen and (max-width: 991px) {
 					align-items: center;
 					margin-top: 30px;
-					// margin-top: 10px;
 				}
 
 				.title {
@@ -252,7 +245,6 @@ html {
 				}
 
 				.text {
-					// margin: auto;
 					margin-top: 50px;
 
 					@media screen and (max-width: 991px) {
@@ -266,7 +258,6 @@ html {
 
 					p, h3 {
 						margin: 0;
-						// margin: auto;
 					}	
 
 					h3 {
@@ -274,11 +265,6 @@ html {
 						margin-left: 10px;
 						letter-spacing: 1px;
 
-
-						// @media screen and (max-width: 991px) {
-						// 	margin-left: 0;
-						// 	margin: auto;
-						// }
 					}
 
 					p {
@@ -305,55 +291,6 @@ html {
 				}
 				
 			}
-
-			// .related {
-			// 	display: flex;
-			// 	margin: auto;
-			// 	height: 80%;
-			// 	max-height: 700px;
-			// 	flex-direction: column;
-			// 	justify-content: space-between;
-			// 	align-items: center;
-
-
-			// 	@media screen and (max-width: 991px) {
-			// 		width: 85%;
-			// 		flex-direction: row;
-			// 		justify-content: space-between;
-			// 		margin-top: 40px;
-			// 	}
-
-			// 	.relatedItem {
-			// 		width: 100px;
-			// 		height: fit-content;
-
-			// 		@media screen and (max-width: 991px) {
-			// 			width: 20%;
-			// 		}
-					
-			// 		img {
-			// 			border-radius: 10px;
-			// 			background-color: $lightGray;
-			// 			width: 100%;
-			// 			height: auto;
-			// 			display: flex;
-			// 			justify-content: center;
-			// 			align-items: center;
-			// 			cursor: pointer;
-			// 		}
-
-			// 		h3, p {
-			// 			margin: 0;
-			// 			text-align: center;
-			// 			font-family: $jost;
-			// 			cursor: pointer;
-			// 		}
-
-			// 		p {
-			// 			margin: 4px;
-			// 		}
-			// 	}
-			// }
 
 			@include related();
 
