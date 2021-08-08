@@ -6,13 +6,15 @@ import x from '../../assets/svg/x.svg';
 import { Link } from 'react-router-dom';
 import useLinksToggler from '../../hooks/useLinksToggler';
 import arrow from '../../assets/svg/arrow2.svg';
+import { User } from '../../App';
 
 interface MenuProps {
 	close: () => void,
 	menuState: boolean,
+	user: User,
 }
 
-const Menu: React.FC<MenuProps> = ({close, menuState}) => {
+const Menu: React.FC<MenuProps> = ({close, menuState, user}) => {
 
 	const { windowWidth } = useWidth()	;
 	const { Open, off, openClose } = useLinksToggler(windowWidth);
@@ -41,7 +43,9 @@ const Menu: React.FC<MenuProps> = ({close, menuState}) => {
 				<li className={styles.link}><Link to={'shop/shirts'}>Shirts</Link></li>
 				<li className={styles.link}><Link to={'shop/accessories'}>Accessories</Link></li>
 			</ul>
-			<div className={styles.login}><Link to={'/login'}>login</Link></div>
+			<div style={user.isAuthenticated ? {display: 'none'} : {}} className={styles.login}><Link to={'/login'}>login</Link></div>
+			<div style={user.isAuthenticated ? {display: 'none'} : {}} className={styles.login}><Link to={'/signup'}>sign up</Link></div>
+			<div style={!user.isAuthenticated ? {display: 'none'} : {}} className={styles.login}><Link to={'/signup'}>logout</Link></div>
 			<ul className={styles.linklist}>
 
 							<li className={`${styles.linksection}`}>

@@ -8,14 +8,16 @@ html {
 		// margin-top: 40px;
 
 		.summary {
+			// border: 1px solid red;
 			h3 {
 				font-family: $jost;
 				font-weight: 300;
 			}
 
 			.order {
-				height: 270px;
+				height: 150px;
 				overflow: scroll;
+				// border: 1px solid black;
 
 				.item {
 					margin-top: 15px;
@@ -38,7 +40,7 @@ html {
 		}
 
 		.payment {
-			margin-top: 20px;
+			margin-top: 10px;
 
 			h3 {
 				margin: 0;

@@ -1,7 +1,7 @@
 @import '../../style/variables';
 
 html {
-	.signup {
+	.recover {
 		overflow: hidden;
 		background-color: white;
 		height: 100vh;
@@ -16,7 +16,7 @@ html {
 		}
 
 		@media screen and (min-width: 1400px) {
-			min-height: (700px + 145px);
+			min-height: (600px + 145px);
 		}
 
 		// @media screen and (min-width: 1600px) {
@@ -25,13 +25,8 @@ html {
 		}
 
 		@media screen and (max-width: 991px) {
-			height: calc(100vh - 92px);
+			height: calc(87vh - 97px);
 			min-height: 570px;
-		}
-
-		@media screen and (max-width: 650px) {
-			overflow: auto;
-			height: fit-content;
 		}
 
 		.headroom {
@@ -47,17 +42,18 @@ html {
 		.overlay {
 			width: 100%;
 			max-width: 450px;
-			height: 700px;
+			height: 600px;
 			box-shadow: 0 .5rem 1rem rgba(0,0,0,.15);
 			border-radius: 30px;
 
 			display: flex;
 			flex-direction: column;
 			justify-content: flex-start;
+			// justify-content: center;
 			align-items: center;
 
-			@media screen and (max-width: 650px) {
-				height: fit-content;	
+			@media screen and (max-width: 420px) {
+
 			}
 
 			h2 {
@@ -69,26 +65,17 @@ html {
 			.form {
 				margin-top: 20px;
 				width: 100%;
-				
-				@media screen and (max-width: 650px) {
-					margin-bottom: 50px;
-				}
 
 
 				.loginGrid {
 					width: 85%;
 					
 					display: grid;
-					grid-template-rows: repeat(4, 70px);
-					// grid-template-columns: repeat(2, 1fr);
+					grid-template-rows: repeat(2, 70px);
 					grid-row-gap: 20px;
-					grid-column-gap: 40px;
 					margin: auto;
-
-					@media screen and (max-width: 650px) {
-						grid-template-rows: repeat(8, 1fr);
-						grid-template-columns: none;
-					}
+					// border: 1px solid red;
+					// align-items: center;
 	
 					.field {
 						display: flex;
@@ -97,6 +84,7 @@ html {
 						align-items: flex-start;
 						width: 250px;
 						margin: auto;
+						// justify-self: center;
 	
 						p {
 							margin: 0;
@@ -118,6 +106,7 @@ html {
 							padding-left: 10px;
 	
 							&:focus {
+								// background: transparent;
 								border: none;
 							}
 						}
@@ -133,9 +122,12 @@ html {
 				
 				button {
 					@include buttonStyle;
-					
 					margin: auto;
 					margin-top: 50px;
+
+					width: fit-content;
+					padding: 0 10px;
+
 				}
 			}
 

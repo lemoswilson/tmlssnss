@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useRef, ChangeEvent } from 'react';
 import styles from './shipment.module.scss';
 import { CheckoutDataProps } from '../../pages/Checkout';
 import { useForm, UseFormRegister, FieldValues } from 'react-hook-form';
@@ -10,7 +10,6 @@ import { commerce } from '../../lib/commerce';
 import { CheckoutToken } from '@chec/commerce.js/types/checkout-token';
 
 interface ShipmentProps extends CheckoutDataProps {
-	shippmentRef: React.MutableRefObject<any>,
 	setShippingData: React.Dispatch<React.SetStateAction<shippingData>>,
 	register: UseFormRegister<FieldValues>,
 	checkoutToken?: CheckoutToken,
@@ -24,7 +23,6 @@ const Shipment: React.FC<ShipmentProps> = ({
 	register,
 	checkoutToken,
 	user, 
-	shippmentRef,
 	cart
 }) => {
 
@@ -56,7 +54,7 @@ const Shipment: React.FC<ShipmentProps> = ({
 		console.log('the shipping options are', options);
 	
 		setShippingOptions(options);
-		setShippingOption(options.id);
+		// setShippingOption(options.id);
 	  };
 
 	useEffect(() => {
@@ -72,6 +70,11 @@ const Shipment: React.FC<ShipmentProps> = ({
 		if (shippingSubdivision && checkoutToken) fetchShippingOptions(checkoutToken?.id, shippingCountry, shippingSubdivision)
 	}, [shippingSubdivision])
 
+	function onChangeOption(e: ChangeEvent<HTMLSelectElement>){
+		setShippingOption(e.target.value);
+	}
+
+	
 
 
 	return (
@@ -105,8 +108,9 @@ const Shipment: React.FC<ShipmentProps> = ({
 				</div>
 				<div className={styles.field}>
 					<p>State</p>
-					{/* <select onChange={(e) => { setShippingSubdivision(e.target.value)}} {...register('state')}> */}
-					<select value={shippingSubdivision} onChange={(e) => { setShippingSubdivision(e.target.value)}} >
+					{/* <select {...register('state', { required: true })} value={shippingSubdivision} onChange={(e) => { setShippingSubdivision(e.target.value)}} > */}
+					<select {...register('state', { required: true })} onChange={(e) => { setShippingSubdivision(e.target.value)}} >
+						<option disabled selected></option>
 						{ Object.entries(shippingSubdivisions).map(([code, name]) => ({id: code, label: name})).map(item => (
 							<option value={item.id} key={item.id}>
 								{ ( item.label ) as any }
@@ -114,7 +118,6 @@ const Shipment: React.FC<ShipmentProps> = ({
 						))}
 					</select>
 
-					{/* <input type="text" {...register('state', { required: true})}/> */}
 				</div>
 				<div className={styles.field}>
 					<p>Zip Code/Postal Code</p>
@@ -122,8 +125,8 @@ const Shipment: React.FC<ShipmentProps> = ({
 				</div>
 				<div className={styles.field}>
 					<p>Country</p>
-					{/* <input defaultValue={'United States'} type="text" {...register('country', { required: true })}/> */}
-					<select value={shippingCountry} onChange={(e) => {setShippingCountry(e.target.value)}} >
+					<select {...register('country', { required: true })} onChange={(e) => {setShippingCountry(e.target.value)}} >
+						<option disabled selected></option>
 						{ Object.entries(shippingCountries).map(([code, name]) => ({id: code, label: name})).map(item => (
 							<option key={item.id} value={item.id}>{(item.label) as any}</option>
 						))}
@@ -131,11 +134,9 @@ const Shipment: React.FC<ShipmentProps> = ({
 				</div>
 				<div className={styles.field}>
 					<p>Shipping Options</p>
-					{/* <input defaultValue={'United States'} type="text" {...register('country', { required: true })}/> */}
-					<select value={shippingOption} onChange={(e) => { setShippingOption(e.target.value)}} >
-						{/* { Object.entries(shippingCountries).map(([code, name]) => ({id: code, label: name})).map(item => (
-							<option key={item.id} value={item.id}>{(item.label) as any}</option>
-						))} */}
+					{/* <select {...register('option', { required: true })} value={shippingOption} onChange={(e) => { setShippingOption(e.target.value)}} > */}
+					<select {...register('option', { required: true })} onChange={(e) => { setShippingOption(e.target.value)}} >
+						<option disabled selected></option>
 						{
 							Object.values(shippingOptions).map((ship: any) => (
 								<option key={ship.id} value={ship.id}> {ship.description} - {ship.price.formatted_with_symbol} </option>

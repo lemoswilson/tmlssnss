@@ -1,36 +1,40 @@
-import React, { useState, useRef } from 'react';
-import { useLocation, Switch, Route, Link, useHistory } from 'react-router-dom';
+import React, { useState } from 'react';
+import { useStripe, useElements, CardElement } from '@stripe/react-stripe-js';
 import { useForm } from 'react-hook-form';
 
 import styles from './style.module.scss';
-import { cleanPath } from '../../components/ShopGrid';
 
 import ConfirmOrder from '../../components/Checkout/ConfirmOrder';
 import Shipment from '../../components/Checkout/Shipment';
 import Payment from '../../components/Checkout/Payment';
+import Loading from '../../components/UI/Loading';
 
 import { User } from '../../App';
 import { Cart } from '@chec/commerce.js/types/cart';
 import { LineItem } from '@chec/commerce.js/types/line-item';
 import { commerce } from '../../lib/commerce';
 import { useEffect } from 'react';
-import { loadStripe } from '@stripe/stripe-js';
-import { Elements } from '@stripe/react-stripe-js';
 import { CheckoutToken } from '@chec/commerce.js/types/checkout-token';
 import { CheckoutCapture } from '@chec/commerce.js/types/checkout-capture';
+import { CheckoutCaptureResponse } from '@chec/commerce.js/types/checkout-capture-response'
 
 
-export interface CheckoutDataProps extends CheckoutProps {
+export interface CheckoutDataProps extends BaseCheckoutProps {
 	items: {[id: string]: string},
 }
 
-export interface CheckoutProps {
+export interface BaseCheckoutProps {
 	user: User,
 	cart?: Cart,
+	order?: CheckoutCaptureResponse,
 	handleUpdateCartQty: (product: string, quantity: number) => void,
 	handleRemoveFromCart: (product: string) => void,
 	handleEmptyCart: () => void,
 	handleCaptureCheckout?: (checkoutTokenId: string, newOrder: CheckoutCapture) => void,
+}
+
+interface CheckoutProps extends BaseCheckoutProps {
+	error?: string,
 }
 
 export interface shippingData {
@@ -46,25 +50,33 @@ export interface shippingData {
 	option?: string,
 }
 
+export type shippingDataBoolean = {[K in keyof shippingData]: boolean}
+
 const Checkout: React.FC<CheckoutProps> = ({
 	cart, 
 	user, 
+	error,
+	order,
 	handleCaptureCheckout,
 	handleEmptyCart, 
 	handleRemoveFromCart, 
 	handleUpdateCartQty
 }) => {
-	const location = useLocation();
-	const history = useHistory();
-	const path = cleanPath(location.pathname)[1]
 	const [items, setItems] = useState<{[id: string]: string}>({})
-	const paymentRef = useRef<any>();
-	const shippimentRef = useRef<any>();
+	const [pageState, setPageState] = useState(0);
+
+	function nextPage(){
+		setPageState(state => state + 1);
+	}
+
+	function previousPage(){
+		setPageState(state => state - 1);
+	}
 
 	const [checkoutToken, setCheckoutToken] = useState<CheckoutToken>();
 	const [shippingData, setShippingData] = useState<shippingData>({});
-
-	const { register, handleSubmit, watch, formState: { errors }} = useForm();
+	const { register, handleSubmit, formState: { errors }} = useForm();
+	const [loading, setLoading] = useState(true);
 
 	useEffect(() => {
 		async function generateToken(){
@@ -87,74 +99,170 @@ const Checkout: React.FC<CheckoutProps> = ({
 			...state,
 			[item.product_id]: response.assets[0].url,
 		}))
+		setLoading(false);
 	}
 
 	useEffect(() => {
 		cart?.line_items.forEach(populate)
 	}, [cart])
 
-	const stripePromise = loadStripe(process.env.REACT_APP_STRIPE_PUBLIC_KEY)
-	useEffect(() => {console.log('stirpe key is ', process.env.REACT_APP_STRIPE_PUBLIC_KEY)}, [])
-
 	const pages: {[key: number]: string} = {
-		0: 'confirm',
+		0: 'confirm order',
 		1: 'shipment',
 		2: 'payment'
 	}
 
-	const title = 
-		path === 'confirm' 
-		? 'confirm order'
-		: path === 'shipment'
-		? 'shipment'
-		: path === 'payment'
-		? 'payment'
-		: ''
+	function checkData(data?: shippingData): boolean | shippingDataBoolean {
+		const value = data ? data : shippingData;
 
-	const page = 
-		path === 'confirm' 
-		? 0 
-		: path === 'shipment'
-		? 1
-		: path === 'payment'
-		? 2
-		: -1 
+		if (Object.keys(value).length === 0) return false
 
-	useEffect(() => {
-		console.log('page is ', page);
-	}, [])
+		for (const key in value){
+			if (key !== 'add_2' && !value[key as keyof shippingData]){
+				// check[key as keyof shippingData] = true;
+				return true
+			}
+		}
 
-	useEffect(() => {
-		if (page < 0)
-			window.location.href = '/checkout/confirm'	
-	}, [])
-
-	function sendToPage(path: string){
-		history.push(path);
+		// return check
+		return false
 	}
 
-	function handlePayment(){
-		if (path !== 'payment')
-			return 
-
-		if (paymentRef)
-			paymentRef.current();
+	function sendToPage(pageNumber: number){
+		if (pageNumber !== 2 || (pageNumber === 2 && checkData() ))
+			setPageState(pageNumber)
+		else if (pageNumber === 2 && !checkData()){
+			
+		}
 	}
 
 	function submit(data: any){
-		console.log('should be submitting')
-		switch (page){
+		console.log('should be submitting', data)
+		switch (pageState){
 			case 0:
-				sendToPage('/checkout/shipment');
+				nextPage()
 				break;
 			case 1: 
-				console.log(data)
+				setShippingData({...data})
+				nextPage()
 				break;
 			case 2:
+				handlePayment()
+				nextPage()
+				break
 			default: 
 				break;
 		}
 	}
+
+	const elements = useElements()
+	const stripe = useStripe();
+
+	async function handlePayment(){
+		if (!stripe || !elements)
+			return
+
+		// get a reference to a mounted CardElement. Elements knows 
+		// how to find your CardElement because there can only ever be one of each type of element.
+
+		const cardElement = elements.getElement(CardElement);
+
+		// use your card element with other Stripe.jsAPIs
+		if (cardElement){
+			const { error, paymentMethod } = await stripe.createPaymentMethod({
+				type: 'card',
+				card: cardElement,
+			})
+			
+			if (error) {
+				console.log('[error]: ', error)
+			} else {
+				if (checkoutToken && paymentMethod){
+					// const orderData: any = {
+					const orderData: any = {
+						line_items: checkoutToken.live.line_items,
+						customer: {
+							firstname: shippingData.first_name, 
+							lastname: shippingData.last_name,
+							email: shippingData.email ? shippingData.email : '' 
+						},
+						shipping: { 
+							name: 'Domestic', 
+							street: shippingData.add, 
+							street_2: shippingData.add_2,
+							town_city: shippingData.city, 
+							county_state: shippingData.state, 
+							postal_zip_code: String(shippingData.zip), 
+							country: shippingData.country,
+
+						},
+						fulfillment: {shipping_method: shippingData.option ? shippingData.option : ''},
+						payment: {
+							gateway: 'stripe',
+							stripe: {
+								payment_method_id: paymentMethod?.id,
+							}
+						}
+
+					}
+
+					handleCaptureCheckout?.(checkoutToken.id, orderData)
+
+				}
+			}
+		}
+	}
+
+
+
+	const Data = 
+		pageState === 0 
+		? <ConfirmOrder 
+			items={items} 
+			user={user} 
+			cart={cart} 
+			handleEmptyCart={handleEmptyCart} 
+			handleRemoveFromCart={handleRemoveFromCart} 
+			handleUpdateCartQty={handleUpdateCartQty} 
+		/>
+		: pageState === 1
+		? <Shipment 
+			checkoutToken={checkoutToken} 
+			register={register}  
+			setShippingData={setShippingData} 
+			items={items} 
+			user={user} 
+			cart={cart} 
+			handleEmptyCart={handleEmptyCart} 
+			handleRemoveFromCart={handleRemoveFromCart} 
+			handleUpdateCartQty={handleUpdateCartQty} 
+		/>
+		// : pageState === 2
+		: pageState >= 2
+		? (
+			<Payment 
+				shippingData={shippingData} 
+				pageState={pageState}
+				error={error}
+				setPageState={setPageState}
+				order={order}
+				handleCaptureCheckout={handleCaptureCheckout} 
+				checkoutToken={checkoutToken} 
+				items={items} 
+				user={user} 
+				cart={cart} 
+				handleEmptyCart={handleEmptyCart} 
+				handleRemoveFromCart={handleRemoveFromCart} 
+				handleUpdateCartQty={handleUpdateCartQty} 
+			/>
+		) 
+		// : pageState === 3
+		// ? <Confirmation setPageState={setPageState} error={error} order={order} />
+		: null
+
+
+		
+
 
 
 
@@ -163,43 +271,31 @@ const Checkout: React.FC<CheckoutProps> = ({
 			<form onSubmit={handleSubmit(submit)}>
 				<div className={styles.headroom}></div>
 				<h2 className={styles.title}>
-					{ title }
+					{ pages[pageState] }
 				</h2>
 				<div className={styles.data}>
-					<Switch>
-						<Route render={() => <ConfirmOrder items={items} user={user} cart={cart} handleEmptyCart={handleEmptyCart} handleRemoveFromCart={handleRemoveFromCart} handleUpdateCartQty={handleUpdateCartQty} />} path={'/checkout/confirm'} />
-						<Route render={() => <Shipment checkoutToken={checkoutToken} register={register} shippmentRef={shippimentRef} setShippingData={setShippingData} items={items} user={user} cart={cart} handleEmptyCart={handleEmptyCart} handleRemoveFromCart={handleRemoveFromCart} handleUpdateCartQty={handleUpdateCartQty} />} path={'/checkout/shipment'} />
-						<Elements stripe={stripePromise}>
-							<Route render={() => (
-								<Payment shippingData={shippingData} handleCaptureCheckout={handleCaptureCheckout} checkoutToken={checkoutToken} paymentRef={paymentRef} items={items} user={user} cart={cart} handleEmptyCart={handleEmptyCart} handleRemoveFromCart={handleRemoveFromCart} handleUpdateCartQty={handleUpdateCartQty} />
-							)} path={'/checkout/payment'} />
-						</Elements>
-					</Switch>
+					{ loading ? <Loading className={styles.loading} /> :  Data }
 				</div>
 				<div className={styles.pageState}>
 					{ [...Array(3).keys()].map(n => (
-						<div onClick={() => {sendToPage(`/checkout/${pages[n]}`)}} className={`${styles.circle} ${n === page ? styles.selected : ''}`}></div>
+						<div key={n} onClick={() => {sendToPage(n)}} className={`${styles.circle} ${n === pageState ? styles.selected : ''}`}></div>
 					))}
 				</div>
 				<div className={styles.totals}>
 					<h2>Total: {cart?.subtotal.formatted_with_symbol}</h2>
 				</div>
-				<div style={page === 0 ? {justifyContent: 'flex-end'} : {}} className={styles.navigation}>
-					{ page > 0 ?
-						<button>
-							<Link to={`/checkout/${pages[page-1]}`}>back</Link>
+				<div style={pageState === 0 ? {justifyContent: 'flex-end'} : pageState > 2 ? {display: 'none'} : {}} className={styles.navigation}>
+					{ pageState > 0 ?
+						<button onClick={previousPage}>
+							{/* <Link to={`/checkout/${pages[page-1]}`}>back</Link> */}
+							back
 						</button>
 						: null
 					}
-					<button type={'submit'} style={path === 'payment' ? {width: 'fit-content', padding: '5px'} : cart?.line_items.length === 0 ? {display: 'none'} : {}} >
-						{/* {
-							page < 2
-							? <Link to={`/checkout/${pages[page+1]}`}>{ pages[page+1] }</Link>
-							: `pay ${cart?.subtotal.formatted_with_symbol}`
-						} */}
+					<button type={'submit'} style={pageState === 2 ? {width: 'fit-content', padding: '5px'} : ( cart?.line_items.length === 0 ) || pageState > 2 ? {display: 'none'} : {}} >
 						{
-							page < 2
-							? pages[page+1]
+							pageState < 2
+							? pages[pageState+1]
 							: `pay ${cart?.subtotal.formatted_with_symbol}`
 						}
 					</button>

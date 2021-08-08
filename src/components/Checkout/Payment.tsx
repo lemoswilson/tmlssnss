@@ -1,5 +1,6 @@
 import React from 'react';
 import styles from './payment.module.scss';
+import { Link } from 'react-router-dom';
 import { CheckoutDataProps } from '../../pages/Checkout';
 import { CardElement, useElements, useStripe } from '@stripe/react-stripe-js';
 import { useEffect } from 'react';
@@ -9,9 +10,11 @@ import { shippingData } from '../../pages/Checkout';
 import './general.scss'
 
 interface PaymentProps extends CheckoutDataProps {
-	paymentRef: React.MutableRefObject<any>,
 	checkoutToken?: CheckoutToken,
 	shippingData: shippingData,
+	error?: string,
+	setPageState: React.Dispatch<React.SetStateAction<number>>,
+	pageState: number,
 }
 
 const Payment: React.FC<PaymentProps> = ({
@@ -19,11 +22,14 @@ const Payment: React.FC<PaymentProps> = ({
 	handleRemoveFromCart, 
 	handleUpdateCartQty, 
 	handleCaptureCheckout, 
+	setPageState,
+	pageState,
 	checkoutToken,
 	shippingData,
+	order,
+	error,
 	user, 
 	items, 
-	paymentRef,
 	cart
 }) => {
 	const elements = useElements()
@@ -59,10 +65,12 @@ const Payment: React.FC<PaymentProps> = ({
 						shipping: { 
 							name: 'Domestic', 
 							street: shippingData.add, 
+							street_2: shippingData.add_2,
 							town_city: shippingData.city, 
 							county_state: shippingData.state, 
 							postal_zip_code: String(shippingData.zip), 
-							country: shippingData.country
+							country: shippingData.country,
+
 						},
 						fulfillment: {shipping_method: shippingData.option ? shippingData.option : ''},
 						payment: {
@@ -70,23 +78,26 @@ const Payment: React.FC<PaymentProps> = ({
 							stripe: {
 								payment_method_id: paymentMethod?.id,
 							}
+						},
+						billing: {
+							name: shippingData.first_name + '' + shippingData.last_name,
+							street: shippingData.add, 
+							street_2: shippingData.add_2,
+							town_city: shippingData.city, 
+							county_state: shippingData.state, 
+							postal_zip_code: String(shippingData.zip), 
+							country: shippingData.country,
 						}
-
 					}
 
 					handleCaptureCheckout?.(checkoutToken.id, orderData)
 
 				}
-				console.log('[paymentMethod]', paymentMethod)
 			}
 		}
 
 	}
 
-	useEffect(() => {
-		if (paymentRef)
-			paymentRef.current = handlePayment;
-	}, [cart?.line_items])
 	
 	return (
 		<div className={styles.payment}>
@@ -94,7 +105,7 @@ const Payment: React.FC<PaymentProps> = ({
 				<h3>Order Summary:</h3>
 				<ul className={styles.order}>
 					{ cart?.line_items.map(item => (
-						<li className={styles.item}>
+						<li key={item.id} className={styles.item}>
 							<div className={styles.name}>{item.name}</div>
 							<div className={styles.quantity}>{item.quantity}x</div>
 							<div className={styles.price}>{item.price.formatted_with_symbol}</div>
@@ -108,6 +119,23 @@ const Payment: React.FC<PaymentProps> = ({
 					<CardElement className={styles.cardElement}/>
 				</div>
 			</div>
+			{
+				pageState > 2 && order && order.customer ? 
+				<React.Fragment>
+					<h3>Thank you for your order {order.customer.firstname} {order.customer.lastname}</h3>
+					<div className={styles.divider}></div>
+					<p>Order ref: { order.customer_reference }</p>
+					<button><Link to={'/shop'}></Link>Back to shop</button>
+				</React.Fragment>
+				: error 
+				? 
+				<React.Fragment>
+					<h3>There was an error trying to process your order, please try again.</h3>
+					<div className={styles.divider}></div>
+					<button onClick={() => { setPageState(0) }}>Back</button>
+				</React.Fragment>
+				: null
+			}	
 		</div>
 	)
 }

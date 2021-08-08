@@ -59,16 +59,32 @@ html {
 				}
 
 				.tmlssnss {
+
+					
+
 					display: flex;
 					align-items: center;
 					justify-content: center;
-					h2 {
-						font-family: $cambo;
-						letter-spacing: 4px;
-						.tmlGray {
-							color: $gray;
+
+					a {
+						color: black;
+						text-decoration: none;
+						h2 {
+							font-family: $cambo;
+							letter-spacing: 4px;
+							
+							.tmlGray {
+								color: $gray;
+							}
 						}
 					}
+					// h2 {
+					// 	font-family: $cambo;
+					// 	letter-spacing: 4px;
+					// 	.tmlGray {
+					// 		color: $gray;
+					// 	}
+					// }
 				}
 
 				.cartInfo {
@@ -77,6 +93,9 @@ html {
 					flex-direction: row;
 					margin-right: 5px;
 
+					img {
+						cursor: pointer;
+					}
 					.search {
 						margin-right: 5px;
 					}
@@ -134,6 +153,7 @@ html {
 
 					.menu {
 						display: flex;
+						cursor: pointer;
 					}
 
 					.userInfo {

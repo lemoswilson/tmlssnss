@@ -9,6 +9,7 @@ import { Product } from '@chec/commerce.js/types/product';
 import useWidth from '../../hooks/useWidth';
 import useHeight from '../../hooks/useHeight';
 import arrow from '../../assets/svg/arrow2.svg';
+import Loading from '../../components/UI/Loading';
 
 interface ItemProps {
 	user: User,
@@ -32,6 +33,7 @@ const Item: React.FC<ItemProps> = ({user, addToCart}) => {
 	const { windowWidth } = useWidth();
 	const { windowHeight } = useHeight();
 	const [counter, setCounter] = useState(0);
+	const [loading, setLoading] = useState(true);
 
 	function toImage(value: number){
 		if (productData)
@@ -59,6 +61,7 @@ const Item: React.FC<ItemProps> = ({user, addToCart}) => {
 			productData.related_products.forEach(p => {
 				commerce.products.retrieve(p.id).then(product => {
 					setRelated(v => v ? v.concat(product) : [product])
+					setLoading(false)
 				})
 			})
 			setCounter(1);
@@ -69,7 +72,7 @@ const Item: React.FC<ItemProps> = ({user, addToCart}) => {
 		window.location.href = v;
 	}
 
-	useEffect(() => {}, [location])
+	// useEffect(() => {}, [location])
 
 	const Related = relatedProducts ? (
 		<div style={window.innerHeight > window.innerWidth && window.innerWidth > 1000 ? {justifyContent: 'space-between', marginTop: 0, maxHeight: '600px'} : {}} className={styles.related}>
@@ -154,9 +157,19 @@ const Item: React.FC<ItemProps> = ({user, addToCart}) => {
 			}
 		</section>
 	)
-	: <div className={styles.item}></div>
+	: <div className={styles.item}>
+		<Loading className={styles.loading}/>
+	</div>
 
-	return Component
+	const Load = (
+		<div style={{display: 'flex', alignItems: 'center', justifyContent: 'center'}} className={styles.item}>
+			<div className={styles.headroom}></div>
+			<Loading className={styles.loading}/>
+		</div>
+	)
+
+	// return  Component
+	return loading ? Load : Component
 }
 
 export default Item;

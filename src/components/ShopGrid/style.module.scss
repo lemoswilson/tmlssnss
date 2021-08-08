@@ -11,6 +11,12 @@ html {
 		margin-top: 20px;
 		margin-left: 20px;
 		padding-right: 20px;
+		width: inherit;
+
+		.loading {
+			width: 50px;
+			height: 50px;
+		}
 
 		.grid {
 			display: grid;

@@ -21,7 +21,7 @@ const Shop: React.FC<ShopProps> = ({ user, addToCart }) => {
 			<div className={styles.headroom}></div>
 			<div className={styles.top}>
 				<h1>shop</h1>
-				<button>checkout</button>
+				<button><Link to={'/checkout'}>checkout</Link></button>
 			</div>
 			<div className={styles.border}>
 				<div className={styles.board}>
