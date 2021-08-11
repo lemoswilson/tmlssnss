@@ -31,7 +31,7 @@ const SignUp: React.FC<SignUpProps> = ({user, updateUser}) => {
 			axios.post(process.env.REACT_APP_SERVER_URL + '/users/signup', data)
 				.then(response => {
 					if (response.status === 200 && response.data.token) {
-						authenticate(response.data.token)	
+						authenticate(response.data.token, response.data.name)	
 					} else {
 						postError(response.data.error)	
 					}
@@ -80,7 +80,10 @@ const SignUp: React.FC<SignUpProps> = ({user, updateUser}) => {
 							<div className={styles.forgot}>
 								By registering you agree with the <Link to={'/terms'}>terms and license</Link>.
 							</div>
-								<button type='submit'>Register</button>
+
+							<button type='submit'>Register</button>
+
+							<div className={styles.error}>{user.errorMessage}</div>
 						</form>
 					</div>	
 			</section>

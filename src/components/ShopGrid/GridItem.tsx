@@ -16,7 +16,8 @@ const GridItem: React.FC<GridItemProps> = ({item, addToCart}) => {
 	const [hover, setHover] = useState(false);
 	const { windowWidth } = useWidth();
 	const history = useHistory();
-	const display = hover || windowWidth < 992 ? {display: 'flex'} : {display: 'none'};
+	// const display = hover || windowWidth < 992 ? {display: 'flex'} : {display: 'none'};
+	const display = hover ? {display: 'flex'} : {display: 'none'};
 	const dimension = windowWidth > 992 ? '25px' : '17%';
 
 	// useEffect(() => {

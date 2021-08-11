@@ -1,35 +1,49 @@
 import React, { useEffect, useState } from 'react';
-import useUserName from '../../hooks/useUserName';
-import { Link } from 'react-router-dom';
+import { Link, useHistory } from 'react-router-dom';
 
+import Search from '../NavBar/Search';
 import SearchImg from '../../assets/svg/search.svg';
 import UserIgm from '../../assets/svg/user.svg';
 import CartImg from '../../assets/svg/cart.svg';
+import CartAdd from '../../assets/svg/cart_add.svg';
 import MenuImg from '../../assets/svg/menu.svg';
+
 
 import styles from './style.module.scss';
 
 import { User } from '../../App';
 
 interface NavBar {
-	message: string,
 	setMenuState: React.Dispatch<React.SetStateAction<boolean>>,
+	setUserMenu: React.Dispatch<React.SetStateAction<boolean>>,
+	setSearchBar: React.Dispatch<React.SetStateAction<boolean>>,
+	justAdded: boolean,
+	isSearchVisible: boolean,
+	message: string,
+	userMenu: boolean,
 	userInfo: {
 		user: User,
 		updateUser: React.Dispatch<React.SetStateAction<User>>,
-	}
+	},
 }
 
-const NavBar: React.FC<NavBar> = ({setMenuState, message, userInfo}) => {
+const NavBar: React.FC<NavBar> = ({setMenuState, message, userInfo, setUserMenu, userMenu, isSearchVisible, setSearchBar, justAdded}) => {
 
+	const history = useHistory();
 	// define this hook later, after setting the backend;
-	const userName = useUserName(userInfo.user)
 
-	function toggleMenuState(){
-		setMenuState(state => !state);
+
+	function menuClick(e: React.MouseEvent) {
+		e.stopPropagation();
+		setUserMenu(state => !state);
 	}
 
-	const greetings = userInfo.user.isAuthenticated	? `Hello, ${userName}` : '';
+	function searchClick(e: React.MouseEvent){
+		e.stopPropagation();
+		setSearchBar(state => !state);
+	}
+
+	const greetings = userInfo.user.isAuthenticated	? `Hello ${userInfo.user.name}` : '';
 
 	return (
 		<div className={styles.wrapper}>
@@ -42,8 +56,16 @@ const NavBar: React.FC<NavBar> = ({setMenuState, message, userInfo}) => {
 						<img onClick={() => setMenuState(state => !state)} src={MenuImg} alt="menu" width={'25px'} height={'25px'} />
 					</div>
 					<div className={styles.userInfo}>
-						{ greetings }
-						<img src={UserIgm} alt="user" width={'25px'} height={'25px'} />
+						<img onClick={menuClick} src={UserIgm} alt="user" width={'25px'} height={'25px'} />
+						<p>{ greetings }</p>
+						{ 
+							userMenu && !userInfo.user.isAuthenticated 
+							? <UnauthenticatedUserMenu className={styles.userMenu}/> 
+							: userMenu && userInfo.user.isAuthenticated
+							? <AuthenticatedUserMenu className={styles.userMenu}/>
+							: null
+						}
+
 					</div>
 					<div className={styles.tmlssnss}>
 						<Link to={'/'}>
@@ -51,8 +73,9 @@ const NavBar: React.FC<NavBar> = ({setMenuState, message, userInfo}) => {
 						</Link>
 					</div>
 					<div className={styles.cartInfo}>
-						<img src={SearchImg} alt="search" width={'25px'} height={'25px'} className={styles.search} />
-						<img src={CartImg} alt="cart" width={'25px'} height={'25px'} />
+						<img onClick={searchClick} src={SearchImg} alt="search" width={'25px'} height={'25px'} className={styles.search} />
+						<Link to={'/checkout'}><img src={justAdded ? CartAdd : CartImg} alt="cart" width={'25px'} height={'25px'} /></Link>
+						<Search setVisibility={setSearchBar} className={styles.searchBar} isVisible={isSearchVisible} />
 					</div>
 				</div>
 				<nav className={styles.navBar}>
@@ -66,6 +89,28 @@ const NavBar: React.FC<NavBar> = ({setMenuState, message, userInfo}) => {
 				</nav>
 			</header>
 		</div>
+	)
+}
+
+interface UserMenuProps {
+	className?: string,
+}
+
+const UnauthenticatedUserMenu: React.FC<UserMenuProps> = ({className}) => {
+	return (
+		<ul className={className}>
+			<li><Link to={'/login'}>Login</Link></li>
+			<li className={styles.signup}><Link to={'/signup'}>Sign Up</Link></li>
+		</ul>
+	)
+}
+
+const AuthenticatedUserMenu: React.FC<UserMenuProps> = ({className}) => {
+	return (
+		<ul className={className}>
+			<li><Link to={'/orders'}>Orders</Link></li>
+			<li className={styles.signup}><Link to={'/updatePassword'}>Update Password</Link></li>
+		</ul>
 	)
 }
 

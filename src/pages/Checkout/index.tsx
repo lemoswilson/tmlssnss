@@ -101,9 +101,12 @@ const Checkout: React.FC<CheckoutProps> = ({
 		}))
 		setLoading(false);
 	}
-
+	
 	useEffect(() => {
-		cart?.line_items.forEach(populate)
+		if (cart?.line_items.length === 0)
+			setLoading(false)
+		else 
+			cart?.line_items.forEach(populate)
 	}, [cart])
 
 	const pages: {[key: number]: string} = {

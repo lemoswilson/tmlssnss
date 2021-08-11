@@ -24,7 +24,7 @@ const Login: React.FC<LoginProps> = ({user, updateUser}) => {
 			axios.post(process.env.REACT_APP_SERVER_URL + '/users/login', data)
 				.then(response => {
 					if (response.status === 200 && response.data.token){
-						authenticate(response.data.token)
+						authenticate(response.data.token, response.data.name)
 					}
 				})
 				.catch(e => {
@@ -48,11 +48,11 @@ const Login: React.FC<LoginProps> = ({user, updateUser}) => {
 						<div className={styles.loginGrid}>
 							<div className={styles.field}>
 								<p>Email</p>
-								<input type="email" {...register('email', { required: true})}/>
+								<input autoComplete={'username'} type="email" {...register('email', { required: true})}/>
 							</div>
 							<div className={styles.field}>
 								<p>Password</p>
-								<input type="password" {...register('password', { required: true})}/>
+								<input autoComplete={'current-password'} type="password" {...register('password', { required: true})}/>
 							</div>
 						</div>
 

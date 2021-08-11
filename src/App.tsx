@@ -19,6 +19,9 @@ import { loadStripe } from '@stripe/stripe-js';
 import { Elements } from '@stripe/react-stripe-js';
 import useVerify, { useSignOut } from './hooks/useVerify';
 import useCart from './hooks/useCart';
+import Orders from './pages/Orders';
+import UpdatePassword from './pages/updatePassword';
+import Search from './components/NavBar/Search';
 
 // stopped at reset password/ checking integration between front and backendd 
 
@@ -32,7 +35,8 @@ interface Store {
 export interface User {
   isAuthenticated: boolean,
   token: string | null,
-  errorMessage: string
+  errorMessage: string,
+  name: string,
 }
 
 function App() {
@@ -40,11 +44,20 @@ function App() {
   const [isMenuOpen, setMenuState] = useState(false);
   const [order, setOrder] = useState<CheckoutCaptureResponse>()
   const [errorMessage, setErrorMessage] = useState<string>();
+  const [userMenu, setUserMenu] = useState(false);
+  const [isSearchVisible, setSearchVisibility] = useState(false);
+  const [justAdded, setJustAdded] = useState(false);
   const [user, updateUser] = useState<User>({
     isAuthenticated: false,
     token: '',
     errorMessage: '',
+    name: '',
   })
+
+  function closeMenus(){
+    setUserMenu(false);
+    setSearchVisibility(false);
+  }
   
   useVerify(user, updateUser);
 
@@ -63,36 +76,40 @@ function App() {
     handleRemoveFromCart, 
     handleUpdateCartQty, 
     cart 
-  } = useCart(setErrorMessage, setOrder);
+  } = useCart(setErrorMessage, setOrder, user, setJustAdded);
   
   return (
-    <React.Fragment>
+    < React.Fragment>
       <Elements stripe={stripePromise}>
         <BrowserRouter>
-          <Menu user={user} close={closeMenu} menuState={isMenuOpen} />
-          <NavBar setMenuState={setMenuState} message={'sales message'} userInfo={{user, updateUser}}/>
-          <Overlay isMenuOpen={isMenuOpen} closeMenu={closeMenu}/>
-          <Switch>
-            <Route path={'/login'} render={() => (<Login updateUser={updateUser} user={user}/>)} />
-            <Route path={'/recover'} render={() => (<Recover updateUser={updateUser} user={user}/>)} />
-            <Route path={'/signup'} render={() => (<SignUp  updateUser={updateUser} user={user}/>)} />
-            <Route path={'/shop'} render={() => (<Shop user={user} addToCart={handleAddToCart}/>)} />
-            <Route path={'/item/:id'} render={() => (<Item user={user} addToCart={handleAddToCart}/>)} />
-              <Route path={'/checkout'} render={() => (
-              <Checkout 
-                error={errorMessage} 
-                handleCaptureCheckout={handleCaptureCheckout} 
-                order={order} 
-                user={user} 
-                cart={cart} 
-                handleEmptyCart={handleEmptyCart}  
-                handleRemoveFromCart={handleRemoveFromCart} 
-                handleUpdateCartQty={handleUpdateCartQty} 
-              />
-              )} />
-            <Route path={'/'} render={() => (<Home user={user}/>)} />
-          </Switch>
-          <Footer/>
+          <div onMouseDown={closeMenus}>
+            <Menu signOut={signOut} user={user} close={closeMenu} menuState={isMenuOpen} />
+            <NavBar justAdded={justAdded} setSearchBar={setSearchVisibility} isSearchVisible={isSearchVisible} setUserMenu={setUserMenu} userMenu={userMenu} setMenuState={setMenuState} message={'sales message'} userInfo={{user, updateUser}}/>
+            <Overlay isMenuOpen={isMenuOpen} closeMenu={closeMenu}/>
+            <Switch>
+              <Route path={'/login'} render={() => (<Login updateUser={updateUser} user={user}/>)} />
+              <Route path={'/recover'} render={() => (<Recover updateUser={updateUser} user={user}/>)} />
+              <Route path={'/signup'} render={() => (<SignUp  updateUser={updateUser} user={user}/>)} />
+              <Route path={'/shop'} render={() => (<Shop user={user} addToCart={handleAddToCart}/>)} />
+              <Route path={'/orders'} render={() => (<Orders updateUser={updateUser} user={user}/>)} />
+              <Route path={'/updatePassword'} render={() => (<UpdatePassword user={user}/>)} />
+              <Route path={'/item/:id'} render={() => (<Item user={user} addToCart={handleAddToCart}/>)} />
+                <Route path={'/checkout'} render={() => (
+                <Checkout
+                  error={errorMessage}
+                  handleCaptureCheckout={handleCaptureCheckout}
+                  order={order}
+                  user={user}
+                  cart={cart}
+                  handleEmptyCart={handleEmptyCart}
+                  handleRemoveFromCart={handleRemoveFromCart}
+                  handleUpdateCartQty={handleUpdateCartQty}
+                />
+                )} />
+              <Route path={'/'} render={() => (<Home user={user}/>)} />
+            </Switch>
+            <Footer/>
+          </div>
         </BrowserRouter>
       </Elements>
     </React.Fragment>

@@ -14,11 +14,12 @@ export default function useAuthenticate(
 		}
 	}, [])
 
-	function authenticate(token: string){
+	function authenticate(token: string, name: string){
 		updateUser({
 			token,
 			isAuthenticated: true,
 			errorMessage: '',
+			name: name,
 		})
 		localStorage.setItem('tmlssnssJWT', token)
 		history.push('/')

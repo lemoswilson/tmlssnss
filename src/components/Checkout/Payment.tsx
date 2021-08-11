@@ -13,6 +13,7 @@ interface PaymentProps extends CheckoutDataProps {
 	checkoutToken?: CheckoutToken,
 	shippingData: shippingData,
 	error?: string,
+	// setError: React.Dispatch<React.SetStateAction<string>>,
 	setPageState: React.Dispatch<React.SetStateAction<number>>,
 	pageState: number,
 }
@@ -125,7 +126,7 @@ const Payment: React.FC<PaymentProps> = ({
 					<h3>Thank you for your order {order.customer.firstname} {order.customer.lastname}</h3>
 					<div className={styles.divider}></div>
 					<p>Order ref: { order.customer_reference }</p>
-					<button><Link to={'/shop'}></Link>Back to shop</button>
+					{/* <button><Link to={'/shop'}></Link>Back to shop</button> */}
 				</React.Fragment>
 				: error 
 				? 

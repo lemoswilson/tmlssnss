@@ -146,7 +146,7 @@ const Shipment: React.FC<ShipmentProps> = ({
 				</div>
 			</div>
 
-			{
+			{/* {
 				user.isAuthenticated 
 				? <div className={styles.forgot}>
 					<div className={styles.checkbox}>
@@ -161,7 +161,7 @@ const Shipment: React.FC<ShipmentProps> = ({
 					</p>
 				</div>
 				: null
-			}
+			} */}
 		</div>
 	)
 }

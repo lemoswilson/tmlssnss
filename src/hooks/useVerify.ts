@@ -31,7 +31,8 @@ export default function useVerify(
 					updateUser({
 						errorMessage: '',
 						isAuthenticated: true,
-						token: localStorage.getItem('xolombrisJWT')
+						token: localStorage.getItem('tmlssnssJWT'),
+						name: res.data.name,
 					})
 				}
 			}).catch(err => {
@@ -39,6 +40,7 @@ export default function useVerify(
 					errorMessage: err,
 					isAuthenticated: false,
 					token: '',
+					name: '',
 				})
 			})
 		}
@@ -55,6 +57,7 @@ export function useSignOut(updateUser: React.Dispatch<React.SetStateAction<User>
 			  errorMessage: '',
 			  isAuthenticated: false,
 			  token: '',
+			  name: '',
 			})
 		  }
 	}

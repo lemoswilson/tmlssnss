@@ -2,7 +2,7 @@
 
 html {
 	.signup {
-		overflow: hidden;
+		// overflow: hidden;
 		background-color: white;
 		height: 100vh;
 		width: 100%;
@@ -12,26 +12,17 @@ html {
 		align-items: center;
 
 		@media screen and (min-width: 992px) {
-			min-height: 570px;
-		}
-
-		@media screen and (min-width: 1400px) {
-			min-height: (700px + 145px);
-		}
-
-		// @media screen and (min-width: 1600px) {
-		@media screen and (min-width: 1600px) {
+			// min-height: 570px;
 			min-height: (750px + 145px);
 		}
 
 		@media screen and (max-width: 991px) {
-			height: calc(100vh - 92px);
 			min-height: 570px;
 		}
 
 		@media screen and (max-width: 650px) {
 			overflow: auto;
-			height: fit-content;
+			// height: fit-content;
 		}
 
 		.headroom {
@@ -85,10 +76,6 @@ html {
 					grid-column-gap: 40px;
 					margin: auto;
 
-					@media screen and (max-width: 650px) {
-						grid-template-rows: repeat(8, 1fr);
-						grid-template-columns: none;
-					}
 	
 					.field {
 						display: flex;
@@ -136,6 +123,12 @@ html {
 					
 					margin: auto;
 					margin-top: 50px;
+				}
+
+				.error {
+					margin-top: 20px;
+					text-align: center;
+					font-family: $jost;
 				}
 			}
 

@@ -4,6 +4,7 @@ import search from '../../assets/svg/search.svg';
 import { Link, Route, Switch, NavLink } from 'react-router-dom';
 import { User } from '../../App';
 import ShopGrid from '../../components/ShopGrid';
+import { useState } from 'react';
 
 interface ShopProps {
 	user: User,
@@ -14,7 +15,12 @@ interface ShopProps {
 const Shop: React.FC<ShopProps> = ({ user, addToCart }) => {
 
 	const activeStyle = {color: 'black', textDecoration: 'underline'};
+	const [inputValue, setInputValue] = useState('');
 
+
+	function onChange(e: React.ChangeEvent<HTMLInputElement>) {
+		setInputValue(e.target.value);
+	}
 
 	return (
 		<div className={styles.shop}>
@@ -28,7 +34,7 @@ const Shop: React.FC<ShopProps> = ({ user, addToCart }) => {
 					<div className={styles.picker}>
 						<div className={styles.search}>
 							<img src={search} alt='search' width={'20px'} height={'20px'} />
-							<input type="text" />
+							<input onChange={onChange} type="text" />
 						</div>
 						<ul className={styles.categories}>
 							<li className={styles.categorie}>
@@ -58,7 +64,7 @@ const Shop: React.FC<ShopProps> = ({ user, addToCart }) => {
 						</ul>
 					</div>
 					<div className={styles.gridItems}>
-						<ShopGrid addToCart={addToCart}/>
+						<ShopGrid searchValue={inputValue} addToCart={addToCart}/>
 						{/* <Switch>
 							<Route path={'/shop/categories/:type'} render={() => <ShopGrid/>}/>
 							<Route path={'/shop/search/:search'} render={() => <ShopGrid/>}/>

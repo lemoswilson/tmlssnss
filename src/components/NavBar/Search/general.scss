@@ -1,0 +1,42 @@
+@import '../../../style/variables';
+
+html {
+			.ais-SearchBox-form {
+				background: none;
+				border: none;
+				outline: none;
+				width: fit-content;
+				height: 25px;
+				background-color: $lightGray;
+				border-radius: 10px;
+				margin-top: 10px;
+				color: black;
+				font-family: $jost;
+				padding-left: 10px;
+				margin: auto;
+
+				.ais-SearchBox-input {
+					background: none;
+					border: none;
+					outline: none;
+					width: 250px;
+					height: 25px;
+					font-size: 16px;
+					margin: 0;
+
+					@media screen and (max-width: 420px) {
+
+					}
+
+					&:focus {
+						border: none;
+					}
+				}
+
+				button {
+					border: none;
+					outline: none;
+					background-color: none;
+				}
+			}
+}
