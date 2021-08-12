@@ -10,7 +10,7 @@ html {
 		display: grid;
 		grid-template-rows: 20% auto 30%;
 
-		.slider {
+		.wrapper {
 			position: absolute;
 			top: 0;
 			left: 0;
@@ -19,171 +19,183 @@ html {
 			height: inherit;
 			min-height: inherit;
 
-			.si {
+			.slider {
+				// position: absolute;
+				// top: 0;
+				// left: 0;
 				display: flex;
-				flex-direction: column;
-				position: relative;
+				flex-direction: row;
 				height: inherit;
 				min-height: inherit;
-
-				.background {
-					position: absolute;
-					top: 0;
-					left: 0;
+	
+				.si {
 					display: flex;
 					flex-direction: column;
-					justify-content: flex-start;
-					align-items: center;
+					position: relative;
 					height: inherit;
 					min-height: inherit;
-					width: inherit;
-					overflow: hidden;
-					z-index: 10;
-				}
-
-				img {
-					// margin: auto;
-				}
-
-				.ca {
-					z-index: 12;
-					.text {
-						font-family: $goboldhollow;
-						width: fit-content;
-						color: white;
-
-						.hollow {
+	
+					.background {
+						position: absolute;
+						top: 0;
+						left: 0;
+						display: flex;
+						flex-direction: column;
+						justify-content: flex-start;
+						align-items: center;
+						height: inherit;
+						min-height: inherit;
+						width: inherit;
+						overflow: hidden;
+						z-index: 10;
+					}
+	
+					img {
+						// margin: auto;
+					}
+	
+					.ca {
+						z-index: 12;
+						.text {
+							font-family: $goboldhollow;
+							width: fit-content;
+							color: white;
+	
+							.hollow {
+								font-family: $gobold;
+							}
+						}
+	
+						.shop {
+							font-size: 100%;	
 							font-family: $gobold;
+							border: 0;
+							padding: 0;
+							width: 100px;
+							border-radius: 10%;
+							background-color: white;
+							color: black;
+							display: flex;
+							justify-content: center;
+							align-items: center;
+							text-align: center;
+							cursor: pointer;
+							z-index: 60;
 						}
 					}
-
-					.shop {
-						font-size: 100%;	
-						font-family: $gobold;
-						border: 0;
-						padding: 0;
-						width: 100px;
-						border-radius: 10%;
-						background-color: white;
-						color: black;
-						display: flex;
-						justify-content: center;
-						align-items: center;
-						text-align: center;
-						cursor: pointer;
-						z-index: 60;
+	
+	
+				}
+	
+				.img1 {
+					background-color: black;
+					
+					.ca {
+						margin-top: 120px;
+						margin-left: 70%;
+	
+						@media screen and (max-width: 991px) {
+							margin-top: 2%;
+						}
+	
+						@media screen and (max-width: 420px) {
+							width: 200px;
+							margin-left: 58%;
+						}
+	
+						.shop {
+							margin-top: 2px;
+						}
+	
+					}
+	
+					.wendy {
+						width: 1300px;
+						height: auto;
+	
+						@media screen and (max-width: 992px) {
+							width: 992px;	
+						}
+					}
+	
+					.gang {
+						width: 1300px;
+						height: auto;
 					}
 				}
-
-
+	
+				.img2 {
+					background-color: #dfc3c3;
+	
+					.ca {
+						width: fit-content;
+						margin-top: 200px;
+						margin-left: 200px;
+	
+						@media screen and (max-width: 992px) {
+							margin-top: 2%;
+							margin-left: 0;
+							align-self: center;
+						}
+					}
+	
+					.boots {
+						width: 1300px;
+						height: inherit;
+						background-image: url('../../assets/images/pink_back2.jpg');
+						background-size: cover;
+						background-repeat: no-repeat;
+						background-position: center;
+	
+						@media screen and (max-width: 992px) {
+							background-size: 90%;
+						}
+	
+						@media screen and (max-width: 680px) {
+							background-position: bottom;
+							width: 900px;
+						}
+					}
+				}
+	
+				.img3 {
+					background-color: rgb(189, 189, 189);
+	
+					.ca {
+						align-self: flex-end;
+						margin-right: 250px;
+						margin-top: 200px;
+	
+						@media screen and (max-width: 992px) {
+							align-self: flex-start;
+							margin-right: 0;
+							margin-left: 10%;
+							margin-top: 10%;
+						}
+	
+						@media screen and (max-width: 420px) {
+							margin-top: 60%;
+						}
+					}
+	
+					.alo {
+						width: 1300px;
+						height: inherit;
+						background-image: url('../../assets/images/alo.jpg');
+						background-size: cover;
+						background-repeat: no-repeat;
+						background-position: center;
+	
+						@media screen and (max-width: 992px) {
+							width: 992px;
+						}
+					}
+				}
+	
 			}
-
-			.img1 {
-				background-color: black;
-				
-				.ca {
-					margin-top: 120px;
-					margin-left: 70%;
-
-					@media screen and (max-width: 991px) {
-						margin-top: 2%;
-					}
-
-					@media screen and (max-width: 420px) {
-						width: 200px;
-						margin-left: 58%;
-					}
-
-					.shop {
-						margin-top: 2px;
-					}
-
-				}
-
-				.wendy {
-					width: 1300px;
-					height: auto;
-
-					@media screen and (max-width: 992px) {
-						width: 992px;	
-					}
-				}
-
-				.gang {
-					width: 1300px;
-					height: auto;
-				}
-			}
-
-			.img2 {
-				background-color: #dfc3c3;
-
-				.ca {
-					width: fit-content;
-					margin-top: 200px;
-					margin-left: 200px;
-
-					@media screen and (max-width: 992px) {
-						margin-top: 2%;
-						margin-left: 0;
-						align-self: center;
-					}
-				}
-
-				.boots {
-					width: 1300px;
-					height: inherit;
-					background-image: url('../../assets/images/pink_back2.jpg');
-					background-size: cover;
-					background-repeat: no-repeat;
-					background-position: center;
-
-					@media screen and (max-width: 992px) {
-						background-size: 90%;
-					}
-
-					@media screen and (max-width: 680px) {
-						background-position: bottom;
-						width: 900px;
-					}
-				}
-			}
-
-			.img3 {
-				background-color: rgb(189, 189, 189);
-
-				.ca {
-					align-self: flex-end;
-					margin-right: 250px;
-					margin-top: 200px;
-
-					@media screen and (max-width: 992px) {
-						align-self: flex-start;
-						margin-right: 0;
-						margin-left: 10%;
-						margin-top: 10%;
-					}
-
-					@media screen and (max-width: 420px) {
-						margin-top: 60%;
-					}
-				}
-
-				.alo {
-					width: 1300px;
-					height: inherit;
-					background-image: url('../../assets/images/alo.jpg');
-					background-size: cover;
-					background-repeat: no-repeat;
-					background-position: center;
-
-					@media screen and (max-width: 992px) {
-						width: 992px;
-					}
-				}
-			}
-
 		}
+
+
 
 		.navigation {
 			width: 90%;

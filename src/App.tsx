@@ -22,6 +22,7 @@ import useCart from './hooks/useCart';
 import Orders from './pages/Orders';
 import UpdatePassword from './pages/updatePassword';
 import Search from './components/NavBar/Search';
+import useNavScroll from './hooks/useNavScroll';
 
 // stopped at reset password/ checking integration between front and backendd 
 
@@ -54,8 +55,8 @@ function App() {
     name: '',
   })
 
+
   function closeMenus(e: React.MouseEvent){
-      console.log('should be closing menus');
       setUserMenu(false);
       setSearchVisibility(false);
   }
@@ -63,10 +64,6 @@ function App() {
   useVerify(user, updateUser);
 
   const signOut = useSignOut(updateUser);
-  
-  function closeMenu(){
-    setMenuState(false);
-  }
   
   useBlockOverflow(isMenuOpen);
 
@@ -78,15 +75,17 @@ function App() {
     handleUpdateCartQty, 
     cart 
   } = useCart(setErrorMessage, setOrder, user, setJustAdded);
+
+  const showNav = useNavScroll();
   
   return (
     < React.Fragment>
       <Elements stripe={stripePromise}>
         <BrowserRouter>
-          <div onMouseDown={closeMenus}>
-            <Menu signOut={signOut} user={user} close={closeMenu} menuState={isMenuOpen} />
-            <NavBar justAdded={justAdded} setSearchBar={setSearchVisibility} isSearchVisible={isSearchVisible} setUserMenu={setUserMenu} userMenu={userMenu} setMenuState={setMenuState} message={'sales message'} userInfo={{user, updateUser}}/>
-            <Overlay isMenuOpen={isMenuOpen} closeMenu={closeMenu}/>
+          <div onScroll={(e) => {}} onMouseDown={closeMenus}>
+            <Menu signOut={signOut} user={user} close={() => setMenuState(false)} menuState={isMenuOpen} />
+            <NavBar showNav={showNav} justAdded={justAdded} setSearchBar={setSearchVisibility} isSearchVisible={isSearchVisible} setUserMenu={setUserMenu} userMenu={userMenu} setMenuState={setMenuState} message={'sales message'} userInfo={{user, updateUser}}/>
+            <Overlay isMenuOpen={isMenuOpen} closeMenu={() => setMenuState(false)}/>
             <Switch>
               <Route path={'/login'} render={() => (<Login updateUser={updateUser} user={user}/>)} />
               <Route path={'/recover'} render={() => (<Recover updateUser={updateUser} user={user}/>)} />

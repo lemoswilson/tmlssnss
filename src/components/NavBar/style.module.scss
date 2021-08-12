@@ -9,6 +9,9 @@ html {
 		width: 100vw;
 		z-index: 77;
 		border-bottom: 1px solid rgba($color: #cfcfcf, $alpha: 1.0);
+		transition-property: top;
+		transition-timing-function: ease-in;
+		transition-duration: 0.5s;
 
 		// display: none;
 

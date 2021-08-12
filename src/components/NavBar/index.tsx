@@ -12,11 +12,13 @@ import MenuImg from '../../assets/svg/menu.svg';
 import styles from './style.module.scss';
 
 import { User } from '../../App';
+import useWidth from '../../hooks/useWidth';
 
 interface NavBar {
 	setMenuState: React.Dispatch<React.SetStateAction<boolean>>,
 	setUserMenu: React.Dispatch<React.SetStateAction<boolean>>,
 	setSearchBar: React.Dispatch<React.SetStateAction<boolean>>,
+	showNav: boolean,
 	justAdded: boolean,
 	isSearchVisible: boolean,
 	message: string,
@@ -27,9 +29,20 @@ interface NavBar {
 	},
 }
 
-const NavBar: React.FC<NavBar> = ({setMenuState, message, userInfo, setUserMenu, userMenu, isSearchVisible, setSearchBar, justAdded}) => {
+const NavBar: React.FC<NavBar> = ({
+	setMenuState, 
+	setUserMenu, 
+	setSearchBar, 
+	showNav,
+	message, 
+	userInfo, 
+	userMenu, 
+	isSearchVisible, 
+	justAdded
+}) => {
 
 	const history = useHistory();
+	const { windowWidth } = useWidth();
 	// define this hook later, after setting the backend;
 
 
@@ -48,7 +61,7 @@ const NavBar: React.FC<NavBar> = ({setMenuState, message, userInfo, setUserMenu,
 	const greetings = userInfo.user.isAuthenticated	? `Hello ${userInfo.user.name}` : '';
 
 	return (
-		<div className={styles.wrapper}>
+		<div style={!showNav && windowWidth > 991 ? {top: '-145px'} : {top: '0px'}} className={styles.wrapper}>
 			<div className={styles.message}>
 				{ message }	
 			</div>
