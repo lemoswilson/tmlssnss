@@ -5,7 +5,7 @@ html {
 		height: calc(100vh);
 
 		@media screen and (max-width: 991px) {
-			height: 100vh;
+			height: fit-content;
 			min-height: 700px;
 			margin-bottom: 25px;
 		}
@@ -43,6 +43,7 @@ html {
 				@media screen and (max-width: 991px) {
 					border-bottom: none;
 					border-top: none;
+					height: fit-content;
 				}
 
 				.loading {

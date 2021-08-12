@@ -17,12 +17,12 @@ const Orders: React.FC<OrdersProps> = ({user, updateUser}) => {
 	const history = useHistory()
 	const location = useLocation();
 
-	useVerify(user, updateUser)
+	useVerify(user, updateUser, true);
 
-	useEffect(() => {
-		if (!user.isAuthenticated)	
-			history.push('/')
-	}, [])
+	// useEffect(() => {
+	// 	if (!user.isAuthenticated)	
+	// 		history.push('/')
+	// }, [])
 
 	function itemTotal(item: item){
 		return item.quantity * item.price

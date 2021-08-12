@@ -6,6 +6,7 @@ import axios from 'axios';
 export default function useVerify(
 	user: User,
 	updateUser: React.Dispatch<React.SetStateAction<User>>,	
+	redirect?: boolean,
 ){
 	const history = useHistory();
 
@@ -34,6 +35,9 @@ export default function useVerify(
 						token: localStorage.getItem('tmlssnssJWT'),
 						name: res.data.name,
 					})
+				} else {
+					if (redirect)
+						history.push('/');
 				}
 			}).catch(err => {
 				updateUser({
@@ -42,6 +46,8 @@ export default function useVerify(
 					token: '',
 					name: '',
 				})
+				if (redirect)
+					history.push('/')
 			})
 		}
 	},[])

@@ -35,7 +35,7 @@ export default function useOrders(user: User) {
 				// console.log('deu erro no fetching', response)
 				setErrors(response);
 			})
-	}, [])
+	}, [user.token])
 
 	return { orders, errors	}
 }

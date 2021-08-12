@@ -12,6 +12,10 @@ html {
 		// 	margin-bottom: 50px;
 		// }
 
+		@media screen and (max-height: 820px) {
+			margin-top: 10px;
+		}
+
 
 		.loginGrid {
 			width: 100%;
@@ -26,6 +30,10 @@ html {
 			@media screen and (max-width: 650px) {
 				grid-template-rows: repeat(8, 1fr);
 				grid-template-columns: none;
+			}
+
+			@media screen and (max-height: 820px) {
+				grid-row-gap: 10px;
 			}
 
 			.field {

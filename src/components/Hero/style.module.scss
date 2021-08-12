@@ -38,10 +38,15 @@ html {
 					min-height: inherit;
 					width: inherit;
 					overflow: hidden;
+					z-index: 10;
+				}
+
+				img {
+					// margin: auto;
 				}
 
 				.ca {
-					z-index: 55;
+					z-index: 12;
 					.text {
 						font-family: $goboldhollow;
 						width: fit-content;
@@ -65,6 +70,8 @@ html {
 						justify-content: center;
 						align-items: center;
 						text-align: center;
+						cursor: pointer;
+						z-index: 60;
 					}
 				}
 

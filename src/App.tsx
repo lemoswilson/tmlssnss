@@ -54,9 +54,10 @@ function App() {
     name: '',
   })
 
-  function closeMenus(){
-    setUserMenu(false);
-    setSearchVisibility(false);
+  function closeMenus(e: React.MouseEvent){
+      console.log('should be closing menus');
+      setUserMenu(false);
+      setSearchVisibility(false);
   }
   
   useVerify(user, updateUser);

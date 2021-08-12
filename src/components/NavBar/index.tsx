@@ -34,11 +34,13 @@ const NavBar: React.FC<NavBar> = ({setMenuState, message, userInfo, setUserMenu,
 
 
 	function menuClick(e: React.MouseEvent) {
+		console.log('clicking on user')	;
 		e.stopPropagation();
 		setUserMenu(state => !state);
 	}
 
 	function searchClick(e: React.MouseEvent){
+		console.log('clicking on search');
 		e.stopPropagation();
 		setSearchBar(state => !state);
 	}
@@ -98,7 +100,7 @@ interface UserMenuProps {
 
 const UnauthenticatedUserMenu: React.FC<UserMenuProps> = ({className}) => {
 	return (
-		<ul className={className}>
+		<ul onMouseDown={(e) => {e.stopPropagation()}} className={className}>
 			<li><Link to={'/login'}>Login</Link></li>
 			<li className={styles.signup}><Link to={'/signup'}>Sign Up</Link></li>
 		</ul>
@@ -107,7 +109,7 @@ const UnauthenticatedUserMenu: React.FC<UserMenuProps> = ({className}) => {
 
 const AuthenticatedUserMenu: React.FC<UserMenuProps> = ({className}) => {
 	return (
-		<ul className={className}>
+		<ul onMouseDown={(e) => {e.stopPropagation()}} className={className}>
 			<li><Link to={'/orders'}>Orders</Link></li>
 			<li className={styles.signup}><Link to={'/updatePassword'}>Update Password</Link></li>
 		</ul>
