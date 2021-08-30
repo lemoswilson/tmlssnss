@@ -43,7 +43,6 @@ const NavBar: React.FC<NavBar> = ({
 
 	const history = useHistory();
 	const { windowWidth } = useWidth();
-	// define this hook later, after setting the backend;
 
 
 	function menuClick(e: React.MouseEvent) {

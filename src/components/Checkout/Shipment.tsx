@@ -16,17 +16,10 @@ interface ShipmentProps extends CheckoutDataProps {
 }
 
 const Shipment: React.FC<ShipmentProps> = ({
-	handleEmptyCart, 
-	handleRemoveFromCart, 
-	handleUpdateCartQty, 
-	setShippingData,
 	register,
 	checkoutToken,
-	user, 
-	cart
 }) => {
 
-	const [checkbox, setCheckbox] = useState(false);
 	const [shippingCountries, setShippingCountries] = useState({});
 	const [shippingCountry, setShippingCountry] = useState('');
 	const [shippingSubdivisions, setShippingSubdivisions] = useState({});
@@ -54,7 +47,6 @@ const Shipment: React.FC<ShipmentProps> = ({
 		console.log('the shipping options are', options);
 	
 		setShippingOptions(options);
-		// setShippingOption(options.id);
 	  };
 
 	useEffect(() => {
@@ -70,15 +62,7 @@ const Shipment: React.FC<ShipmentProps> = ({
 		if (shippingSubdivision && checkoutToken) fetchShippingOptions(checkoutToken?.id, shippingCountry, shippingSubdivision)
 	}, [shippingSubdivision])
 
-	function onChangeOption(e: ChangeEvent<HTMLSelectElement>){
-		setShippingOption(e.target.value);
-	}
-
-	
-
-
 	return (
-		// <div className={styles.form} onSubmit={handleSubmit(submit)}>
 		<div className={styles.form} >
 			<div className={styles.loginGrid}>
 
@@ -108,7 +92,6 @@ const Shipment: React.FC<ShipmentProps> = ({
 				</div>
 				<div className={styles.field}>
 					<p>State</p>
-					{/* <select {...register('state', { required: true })} value={shippingSubdivision} onChange={(e) => { setShippingSubdivision(e.target.value)}} > */}
 					<select {...register('state', { required: true })} onChange={(e) => { setShippingSubdivision(e.target.value)}} >
 						<option disabled selected></option>
 						{ Object.entries(shippingSubdivisions).map(([code, name]) => ({id: code, label: name})).map(item => (
@@ -134,7 +117,6 @@ const Shipment: React.FC<ShipmentProps> = ({
 				</div>
 				<div className={styles.field}>
 					<p>Shipping Options</p>
-					{/* <select {...register('option', { required: true })} value={shippingOption} onChange={(e) => { setShippingOption(e.target.value)}} > */}
 					<select {...register('option', { required: true })} onChange={(e) => { setShippingOption(e.target.value)}} >
 						<option disabled selected></option>
 						{
@@ -145,23 +127,6 @@ const Shipment: React.FC<ShipmentProps> = ({
 					</select>
 				</div>
 			</div>
-
-			{/* {
-				user.isAuthenticated 
-				? <div className={styles.forgot}>
-					<div className={styles.checkbox}>
-						{
-							checkbox 
-							? <img src={x} alt='check' />
-							: null
-						}
-					</div>
-					<p> 
-						Use my registered information. (Not registered? Sign up <Link to={'/signup'}>here</Link>)	
-					</p>
-				</div>
-				: null
-			} */}
 		</div>
 	)
 }

@@ -7,9 +7,6 @@ export default function useBlockOverflow(isMenuOpen: boolean) {
 	useEffect(() => {
 		if (windowWidth < 992 && isMenuOpen) {
 			document.body.style.overflow = 'hidden';
-			// document.body.style.overflowX = 'hidden';
-			// document.body.style.overflowY = 'auto';
-			
 		} else {
 			document.body.style.overflow = 'auto';
 		}

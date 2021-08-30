@@ -65,10 +65,6 @@ const Shop: React.FC<ShopProps> = ({ user, addToCart }) => {
 					</div>
 					<div className={styles.gridItems}>
 						<ShopGrid searchValue={inputValue} addToCart={addToCart}/>
-						{/* <Switch>
-							<Route path={'/shop/categories/:type'} render={() => <ShopGrid/>}/>
-							<Route path={'/shop/search/:search'} render={() => <ShopGrid/>}/>
-						</Switch> */}
 					</div>
 				</div>
 			</div>

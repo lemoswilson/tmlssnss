@@ -25,14 +25,15 @@ export default function useOrders(user: User) {
 
 	useEffect(() => {
 		if(process.env.REACT_APP_SERVER_URL)
-			axios.get(process.env.REACT_APP_SERVER_URL + '/users/orders', {headers: {authorization: user.token}})
+			axios.get(
+				process.env.REACT_APP_SERVER_URL + '/users/orders', 
+				{headers: {authorization: user.token}}
+			)
 			.then(response => {
-				console.log('there s a response for fetching orders, which is', response.data, response.status)
 				if (response.status === 200) 
 					setOrders(response.data.orders);
 			})
 			.catch(response => {
-				// console.log('deu erro no fetching', response)
 				setErrors(response);
 			})
 	}, [user.token])

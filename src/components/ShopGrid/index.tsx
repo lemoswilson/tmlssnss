@@ -14,23 +14,23 @@ export function cleanPath(path: string){
 	return path.split('/').filter(v => v !== '')
 }
 
-interface ShopGridProps {
-	addToCart: (product: string, quantity: number) => void,
-	searchValue: string,
-}
 
 const client = algoliasearch(
 	process.env.REACT_APP_PUBLIC_ALGOLIA_APP_ID,
 	process.env.REACT_APP_PUBLIC_ALGOLIA_SEARCH_KEY,
 )
-
+	
 const index = client.initIndex('tmlssnss')
 
+interface ShopGridProps {
+	addToCart: (product: string, quantity: number) => void,
+	searchValue: string,
+}
+	
 const ShopGrid: React.FC<ShopGridProps> = ({ addToCart, searchValue }) => {
 	const location = useLocation();
 	const [items, setItems] = useState<Product[]>([])
 	const [vacuo, setVacuo] = useState(false);
-	const history = useHistory();
 	const [loading, setLoading] = useState(true);
 	const [filteredItems, setFilteredItems] = useState<Product[]>([]);
 

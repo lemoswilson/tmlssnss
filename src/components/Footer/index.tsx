@@ -26,42 +26,7 @@ export interface categories {
 const Footer: React.FC = () => {
 	const location = useLocation();
 	const { windowWidth } = useWidth()	;
-
 	const { Open, off, openClose } = useLinksToggler(windowWidth);
-
-	// const [Open, setOpen] = useState<categories>({
-	// 	about: false,
-	// 	customer: false,
-	// 	contact: false,
-	// });
-	// const [off, setOff] = useState<categories>({
-	// 	about: false,
-	// 	customer: false,
-	// 	contact: false,
-	// });
-
-
-    // const openClose = (category: keyof categories) => {
-	// 	if (windowWidth > 991) return;
-
-    //     if (Open[category]) {
-    //         setOff(state => ({
-	// 			...state,
-	// 			[category]: true,
-	// 		}))
-    //         setTimeout(() => {
-    //             setOff(state => ({
-	// 				...state,
-	// 				[category]: false,
-	// 			}));
-    //         }, 330);
-    //     }
-
-    //     setOpen(state => ({
-	// 		...state,
-	// 		[category]: !state[category]
-	// 	}))
-    // }
 
 	const toggleAbout = Open.about
     ? `${styles.open}`
@@ -81,17 +46,10 @@ const Footer: React.FC = () => {
 		? `${styles.close}`
 		: ''
 
-
-	useEffect(() => {
-
-	}, [])
-
 	const noShow = 
 		location.pathname === '/login' || location.pathname === '/signup' || cleanPath(location.pathname)[0] === 'shop'
 		? true
 		: false
-
-
 
 	return (
 		<section style={ noShow ? {display: 'none'} : {}} className={styles.footer}>

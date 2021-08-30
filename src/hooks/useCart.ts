@@ -4,7 +4,6 @@ import { Cart } from '@chec/commerce.js/types/cart';
 import { CheckoutCapture } from '@chec/commerce.js/types/checkout-capture';
 import { CheckoutCaptureResponse } from '@chec/commerce.js/types/checkout-capture-response';
 import axios from 'axios';
-import { useHistory } from 'react-router-dom';
 import { LineItem } from '@chec/commerce.js/types/line-item';
 import { User } from '../App';
 
@@ -15,7 +14,6 @@ export default function useCart(
 	setJustAdded: React.Dispatch<React.SetStateAction<boolean>>,
 ){
 	const [cart, setCart] = useState<Cart>();
-	const history = useHistory();
 
 	async function fetchCart(){
 	  setCart(await commerce.cart.retrieve());
@@ -28,7 +26,6 @@ export default function useCart(
 	async function handleAddToCart(product: string, quantity: number) {
 	  const { cart } = await commerce.cart.add(product, quantity);
 	  setCart(cart);
-	  console.log('should be adding to cart and changing justAdded');
 	  setJustAdded(true)
 	  setTimeout(() => {setJustAdded(false)}, 1500);
 	}
@@ -36,7 +33,6 @@ export default function useCart(
 	async function handleUpdateCartQty(product: string, quantity: number) {
 		const { cart } = await commerce.cart.update(product, { quantity })
 		setCart(cart)
-
 	}
   
 	async function handleRemoveFromCart(product: string) {
@@ -57,7 +53,6 @@ export default function useCart(
 			if (process.env.REACT_APP_SERVER_URL)
 				if (user.isAuthenticated)
 					axios.post(process.env.REACT_APP_SERVER_URL + '/users/orders', {
-						// submitted_at: incomingOrder.created, 
 						submitted_at: new Date().getTime(), 
 						total_items: newOrder.line_items.length, 
 						items: newOrder.line_items.map((item: LineItem) => ({
@@ -71,8 +66,10 @@ export default function useCart(
 						state: 'paid',
 						email: incomingOrder.customer.email,
 					}, {headers: {authorization: user.token}})
-					.then(response => {console.log('should have placed the order', response.data)})
-					.catch(response => {console.log('deu erro during placing order in the database', response.data)})
+					.then(_ => {})
+					.catch(_ => {})
+					// .then(response => {console.log('should have placed the order', response.data)})
+					// .catch(response => {console.log('deu erro during placing order in the database', response.data)})
 
 			return incomingOrder
 		})

@@ -65,8 +65,10 @@ const Search: React.FC<SearchProps> = ({isVisible, className, setVisibility}) =>
 
 
 	return (
-		// <div onClick={(e) => {e.stopPropagation()}} className={`${styles.search} ${className} ${shouldShowSearch}`}>
-		<div onMouseDown={(e) => {e.stopPropagation()}} className={`${styles.search} ${className} ${shouldShowSearch}`}>
+		<div 
+			onMouseDown={(e) => {e.stopPropagation()}} 
+			className={`${styles.search} ${className} ${shouldShowSearch}`}
+		>
 			<div className={styles.close}>
 				<img onClick={() => setVisibility(false)} src={x} alt="close" />
 			</div>

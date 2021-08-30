@@ -99,10 +99,20 @@ const Hero: React.FC = () => {
 
 			<div className={styles.navigation}>
 				<div className={styles.arrow}>
-					<img onClick={() => !blocker_ref.current ? previousImage() : () => {}} src={arrow} alt="prev" className={`${ styles.prev } ${styles.arrowSvg}`} />
+					<img 
+						onClick={() => !blocker_ref.current ? previousImage() : () => {}} 
+						src={arrow} 
+						alt="prev" 
+						className={`${ styles.prev } ${styles.arrowSvg}`} 
+					/>
 				</div>
 				<div className={styles.arrow}>
-					<img onClick={() => !blocker_ref.current ? nextImage() : () => {}} src={arrow} alt="next" className={styles.arrowSvg} />
+					<img 
+						onClick={() => !blocker_ref.current ? nextImage() : () => {}} 
+						src={arrow} 
+						alt="next" 
+						className={styles.arrowSvg} 
+					/>
 				</div>
 			</div>
 
@@ -111,6 +121,8 @@ const Hero: React.FC = () => {
 					<div key={n} className={`${styles.state} ${n === sliderPosition ? styles.selected : ''}`}></div>
 				))}
 			</div>
+
+
 		</section>
 	)
 }

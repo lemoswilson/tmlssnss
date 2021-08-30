@@ -14,7 +14,6 @@ interface LoginProps {
 }
 
 const Login: React.FC<LoginProps> = ({user, updateUser}) => {
-	const history = useHistory();
 	const { register, handleSubmit, formState: { errors }} = useForm();
 	const { authenticate, postError } = useAuthenticate(user, updateUser);
 

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useStripe, useElements, CardElement } from '@stripe/react-stripe-js';
 import { useForm } from 'react-hook-form';
 
@@ -8,12 +8,11 @@ import ConfirmOrder from '../../components/Checkout/ConfirmOrder';
 import Shipment from '../../components/Checkout/Shipment';
 import Payment from '../../components/Checkout/Payment';
 import Loading from '../../components/UI/Loading';
+import { commerce } from '../../lib/commerce';
 
 import { User } from '../../App';
 import { Cart } from '@chec/commerce.js/types/cart';
 import { LineItem } from '@chec/commerce.js/types/line-item';
-import { commerce } from '../../lib/commerce';
-import { useEffect } from 'react';
 import { CheckoutToken } from '@chec/commerce.js/types/checkout-token';
 import { CheckoutCapture } from '@chec/commerce.js/types/checkout-capture';
 import { CheckoutCaptureResponse } from '@chec/commerce.js/types/checkout-capture-response'
@@ -62,8 +61,14 @@ const Checkout: React.FC<CheckoutProps> = ({
 	handleRemoveFromCart, 
 	handleUpdateCartQty
 }) => {
+	const { register, handleSubmit, formState: { errors }} = useForm();
 	const [items, setItems] = useState<{[id: string]: string}>({})
 	const [pageState, setPageState] = useState(0);
+	const [checkoutToken, setCheckoutToken] = useState<CheckoutToken>();
+	const [shippingData, setShippingData] = useState<shippingData>({});
+	const [loading, setLoading] = useState(true);
+	const elements = useElements()
+	const stripe = useStripe();
 
 	function nextPage(){
 		setPageState(state => state + 1);
@@ -73,16 +78,12 @@ const Checkout: React.FC<CheckoutProps> = ({
 		setPageState(state => state - 1);
 	}
 
-	const [checkoutToken, setCheckoutToken] = useState<CheckoutToken>();
-	const [shippingData, setShippingData] = useState<shippingData>({});
-	const { register, handleSubmit, formState: { errors }} = useForm();
-	const [loading, setLoading] = useState(true);
 
 	useEffect(() => {
 		async function generateToken(){
 			try {
 				if (cart){
-					const token = await commerce.checkout.generateToken(cart?.id, { type: 'cart'})
+					const token = await commerce.checkout.generateToken(cart.id, { type: 'cart'})
 					setCheckoutToken(token)
 				} 
 			} catch (error) {
@@ -93,6 +94,13 @@ const Checkout: React.FC<CheckoutProps> = ({
 		generateToken();
 	}, [cart])
 
+	useEffect(() => {
+		if (cart?.line_items.length === 0)
+			setLoading(false)
+		else 
+			cart?.line_items.forEach(populate)
+	}, [cart])
+
 	async function populate(item: LineItem){
 		const response = await commerce.products.retrieve(item.product_id)
 		setItems(state => ({
@@ -101,13 +109,6 @@ const Checkout: React.FC<CheckoutProps> = ({
 		}))
 		setLoading(false);
 	}
-	
-	useEffect(() => {
-		if (cart?.line_items.length === 0)
-			setLoading(false)
-		else 
-			cart?.line_items.forEach(populate)
-	}, [cart])
 
 	const pages: {[key: number]: string} = {
 		0: 'confirm order',
@@ -117,26 +118,23 @@ const Checkout: React.FC<CheckoutProps> = ({
 
 	function checkData(data?: shippingData): boolean | shippingDataBoolean {
 		const value = data ? data : shippingData;
-
 		if (Object.keys(value).length === 0) return false
 
 		for (const key in value){
 			if (key !== 'add_2' && !value[key as keyof shippingData]){
-				// check[key as keyof shippingData] = true;
 				return true
 			}
 		}
 
-		// return check
 		return false
 	}
 
 	function sendToPage(pageNumber: number){
 		if (pageNumber !== 2 || (pageNumber === 2 && checkData() ))
 			setPageState(pageNumber)
-		else if (pageNumber === 2 && !checkData()){
+		// else if (pageNumber === 2 && !checkData()){
 			
-		}
+		// }
 	}
 
 	function submit(data: any){
@@ -158,8 +156,6 @@ const Checkout: React.FC<CheckoutProps> = ({
 		}
 	}
 
-	const elements = useElements()
-	const stripe = useStripe();
 
 	async function handlePayment(){
 		if (!stripe || !elements)
@@ -177,41 +173,33 @@ const Checkout: React.FC<CheckoutProps> = ({
 				card: cardElement,
 			})
 			
-			if (error) {
-				console.log('[error]: ', error)
-			} else {
-				if (checkoutToken && paymentMethod){
-					// const orderData: any = {
-					const orderData: any = {
-						line_items: checkoutToken.live.line_items,
-						customer: {
-							firstname: shippingData.first_name, 
-							lastname: shippingData.last_name,
-							email: shippingData.email ? shippingData.email : '' 
-						},
-						shipping: { 
-							name: 'Domestic', 
-							street: shippingData.add, 
-							street_2: shippingData.add_2,
-							town_city: shippingData.city, 
-							county_state: shippingData.state, 
-							postal_zip_code: String(shippingData.zip), 
-							country: shippingData.country,
+			if (!error && checkoutToken && paymentMethod) {
+				const orderData: any = {
+					line_items: checkoutToken.live.line_items,
+					customer: {
+						firstname: shippingData.first_name, 
+						lastname: shippingData.last_name,
+						email: shippingData.email ? shippingData.email : '' 
+					},
+					shipping: { 
+						name: 'Domestic', 
+						street: shippingData.add, 
+						street_2: shippingData.add_2,
+						town_city: shippingData.city, 
+						county_state: shippingData.state, 
+						postal_zip_code: String(shippingData.zip), 
+						country: shippingData.country,
 
-						},
-						fulfillment: {shipping_method: shippingData.option ? shippingData.option : ''},
-						payment: {
-							gateway: 'stripe',
-							stripe: {
-								payment_method_id: paymentMethod?.id,
-							}
+					},
+					fulfillment: {shipping_method: shippingData.option ? shippingData.option : ''},
+					payment: {
+						gateway: 'stripe',
+						stripe: {
+							payment_method_id: paymentMethod?.id,
 						}
-
 					}
-
-					handleCaptureCheckout?.(checkoutToken.id, orderData)
-
 				}
+				handleCaptureCheckout?.(checkoutToken.id, orderData)
 			}
 		}
 	}
@@ -240,7 +228,6 @@ const Checkout: React.FC<CheckoutProps> = ({
 			handleRemoveFromCart={handleRemoveFromCart} 
 			handleUpdateCartQty={handleUpdateCartQty} 
 		/>
-		// : pageState === 2
 		: pageState >= 2
 		? (
 			<Payment 
@@ -259,43 +246,55 @@ const Checkout: React.FC<CheckoutProps> = ({
 				handleUpdateCartQty={handleUpdateCartQty} 
 			/>
 		) 
-		// : pageState === 3
-		// ? <Confirmation setPageState={setPageState} error={error} order={order} />
 		: null
-
-
-		
-
-
-
 
 	return (
 		<section className={styles.checkout}>
 			<form onSubmit={handleSubmit(submit)}>
 				<div className={styles.headroom}></div>
+
 				<h2 className={styles.title}>
 					{ pages[pageState] }
 				</h2>
+
 				<div className={styles.data}>
 					{ loading ? <Loading className={styles.loading} /> :  Data }
 				</div>
+
 				<div className={styles.pageState}>
 					{ [...Array(3).keys()].map(n => (
 						<div key={n} onClick={() => {sendToPage(n)}} className={`${styles.circle} ${n === pageState ? styles.selected : ''}`}></div>
 					))}
 				</div>
+
 				<div className={styles.totals}>
 					<h2>Total: {cart?.subtotal.formatted_with_symbol}</h2>
 				</div>
-				<div style={pageState === 0 ? {justifyContent: 'flex-end'} : pageState > 2 ? {display: 'none'} : {}} className={styles.navigation}>
+
+				<div 
+					style={
+						pageState === 0 
+						? {justifyContent: 'flex-end'} 
+						: pageState > 2 
+						? {display: 'none'} 
+						: {}
+					} 
+					className={styles.navigation}
+				>
 					{ pageState > 0 ?
-						<button onClick={previousPage}>
-							{/* <Link to={`/checkout/${pages[page-1]}`}>back</Link> */}
-							back
-						</button>
+						<button onClick={previousPage}>back</button>
 						: null
 					}
-					<button type={'submit'} style={pageState === 2 ? {width: 'fit-content', padding: '5px'} : ( cart?.line_items.length === 0 ) || pageState > 2 ? {display: 'none'} : {}} >
+					<button 
+						type={'submit'} 
+						style={
+							pageState === 2 
+							? {width: 'fit-content', padding: '5px'} 
+							: ( cart?.line_items.length === 0 ) || pageState > 2 
+							? {display: 'none'} 
+							: {}
+						} 
+					>
 						{
 							pageState < 2
 							? pages[pageState+1]

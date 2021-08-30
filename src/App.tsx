@@ -1,37 +1,34 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
+import useBlockOverflow from './hooks/useBlockOverflow';
+import useNavScroll from './hooks/useNavScroll';
+import useVerify, { useSignOut } from './hooks/useVerify';
+import useCart from './hooks/useCart';
 import { BrowserRouter, Route, Switch } from 'react-router-dom';
-import NavBar from './components/NavBar';
+
 import Home from './pages/Home';
-import { commerce } from './lib/commerce';
-import Footer from './components/Footer';
-import './style/defaults.scss';
 import Recover from './pages/Recover';
 import Login from './pages/Login';
 import SignUp from './pages/SignUp';
 import Shop from './pages/Shop';
 import Item from './pages/Item';
+import Checkout from './pages/Checkout';
+import Orders from './pages/Orders';
+import UpdatePassword from './pages/updatePassword';
+
+import NavBar from './components/NavBar';
+import Footer from './components/Footer';
 import Menu from './components/Menu';
 import Overlay from './components/Overlay';
-import useBlockOverflow from './hooks/useBlockOverflow';
-import Checkout from './pages/Checkout';
+
 import { CheckoutCaptureResponse } from '@chec/commerce.js/types/checkout-capture-response'
 import { loadStripe } from '@stripe/stripe-js';
 import { Elements } from '@stripe/react-stripe-js';
-import useVerify, { useSignOut } from './hooks/useVerify';
-import useCart from './hooks/useCart';
-import Orders from './pages/Orders';
-import UpdatePassword from './pages/updatePassword';
-import Search from './components/NavBar/Search';
-import useNavScroll from './hooks/useNavScroll';
+
+import './style/defaults.scss';
 
 // stopped at reset password/ checking integration between front and backendd 
 
-
 const stripePromise = loadStripe(process.env.REACT_APP_STRIPE_PUBLIC_KEY)
-
-interface Store {
-  products: any[]
-}
 
 export interface User {
   isAuthenticated: boolean,
@@ -54,18 +51,14 @@ function App() {
     errorMessage: '',
     name: '',
   })
-
+  const signOut = useSignOut(updateUser);
+  useVerify(user, updateUser);
+  useBlockOverflow(isMenuOpen);
 
   function closeMenus(e: React.MouseEvent){
-      setUserMenu(false);
-      setSearchVisibility(false);
+    setUserMenu(false);
+    setSearchVisibility(false);
   }
-  
-  useVerify(user, updateUser);
-
-  const signOut = useSignOut(updateUser);
-  
-  useBlockOverflow(isMenuOpen);
 
   const { 
     handleAddToCart, 
@@ -84,16 +77,16 @@ function App() {
         <BrowserRouter>
           <div onScroll={(e) => {}} onMouseDown={closeMenus}>
             <Menu signOut={signOut} user={user} close={() => setMenuState(false)} menuState={isMenuOpen} />
-            <NavBar showNav={showNav} justAdded={justAdded} setSearchBar={setSearchVisibility} isSearchVisible={isSearchVisible} setUserMenu={setUserMenu} userMenu={userMenu} setMenuState={setMenuState} message={'sales message'} userInfo={{user, updateUser}}/>
+            <NavBar showNav={showNav} justAdded={justAdded} setSearchBar={setSearchVisibility} isSearchVisible={isSearchVisible} setUserMenu={setUserMenu} userMenu={userMenu} setMenuState={setMenuState} message={'10% off in your first purchase'} userInfo={{user, updateUser}}/>
             <Overlay isMenuOpen={isMenuOpen} closeMenu={() => setMenuState(false)}/>
             <Switch>
-              <Route path={'/login'} render={() => (<Login updateUser={updateUser} user={user}/>)} />
-              <Route path={'/recover'} render={() => (<Recover updateUser={updateUser} user={user}/>)} />
-              <Route path={'/signup'} render={() => (<SignUp  updateUser={updateUser} user={user}/>)} />
-              <Route path={'/shop'} render={() => (<Shop user={user} addToCart={handleAddToCart}/>)} />
-              <Route path={'/orders'} render={() => (<Orders updateUser={updateUser} user={user}/>)} />
-              <Route path={'/updatePassword'} render={() => (<UpdatePassword user={user}/>)} />
-              <Route path={'/item/:id'} render={() => (<Item user={user} addToCart={handleAddToCart}/>)} />
+              <Route path={'/login'} render={() => <Login updateUser={updateUser} user={user}/>} />
+              <Route path={'/recover'} render={() => <Recover updateUser={updateUser} user={user}/>} />
+              <Route path={'/signup'} render={() => <SignUp  updateUser={updateUser} user={user}/>} />
+              <Route path={'/shop'} render={() => <Shop user={user} addToCart={handleAddToCart}/>} />
+              <Route path={'/orders'} render={() => <Orders updateUser={updateUser} user={user}/>} />
+              <Route path={'/updatePassword'} render={() => <UpdatePassword user={user}/>} />
+              <Route path={'/item/:id'} render={() => <Item user={user} addToCart={handleAddToCart}/>} />
                 <Route path={'/checkout'} render={() => (
                 <Checkout
                   error={errorMessage}
