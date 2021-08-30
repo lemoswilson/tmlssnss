@@ -1,5 +1,5 @@
 # tmlssnss
-[![NPM](https://img.shields.io/npm/l/react)](https://github.com/lemoswilson/quarenTunes/blob/typescript-redux/LICENSE.md) 
+[![NPM](https://img.shields.io/npm/l/react)](https://github.com/lemoswilson/tmlssnss/blob/master/LICENSE.md) 
 
 ## About
 tmlssnss is an e-commerce platform made with React and CommerceJS API, with added user authentication and history of purchases.
