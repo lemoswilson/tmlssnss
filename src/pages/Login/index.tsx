@@ -33,7 +33,7 @@ const Login: React.FC<LoginProps> = ({user, updateUser}) => {
 						: 'There was a problem with the password or username entered'
 					)
 				})
-		} catch (e) {
+		} catch (e: any) {
 			postError(e.response.data.error);
 		}
 	}

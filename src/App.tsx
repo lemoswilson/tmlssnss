@@ -25,6 +25,7 @@ import { loadStripe } from '@stripe/stripe-js';
 import { Elements } from '@stripe/react-stripe-js';
 
 import './style/defaults.scss';
+import Info from './components/Info';
 
 // stopped at reset password/ checking integration between front and backendd 
 
@@ -80,6 +81,7 @@ function App() {
             <NavBar showNav={showNav} justAdded={justAdded} setSearchBar={setSearchVisibility} isSearchVisible={isSearchVisible} setUserMenu={setUserMenu} userMenu={userMenu} setMenuState={setMenuState} message={'10% off in your first purchase'} userInfo={{user, updateUser}}/>
             <Overlay isMenuOpen={isMenuOpen} closeMenu={() => setMenuState(false)}/>
             <Switch>
+              <Route path={'/info'} render={() => <Info/>} />
               <Route path={'/login'} render={() => <Login updateUser={updateUser} user={user}/>} />
               <Route path={'/recover'} render={() => <Recover updateUser={updateUser} user={user}/>} />
               <Route path={'/signup'} render={() => <SignUp  updateUser={updateUser} user={user}/>} />

@@ -1,7 +1,7 @@
 import React, {useState, useRef } from 'react';
 import algoliasearch from 'algoliasearch';
 import { Link } from 'react-router-dom';
-import { InstantSearch, Hits, HitsProps, SearchBox } from 'react-instantsearch-dom';
+import { InstantSearch, Hits, HitsProps, SearchBox, PoweredBy } from 'react-instantsearch-dom';
 import styles from './style.module.scss';
 import { useEffect } from 'react';
 import x from '../../../assets/svg/x.svg';
@@ -17,7 +17,6 @@ const client = algoliasearch(
 	process.env.REACT_APP_PUBLIC_ALGOLIA_APP_ID,
 	process.env.REACT_APP_PUBLIC_ALGOLIA_SEARCH_KEY,
 )
-
 
 
 const SearchResultItem: React.FC<any> = ({hit}) => {
@@ -60,6 +59,18 @@ const Search: React.FC<SearchProps> = ({isVisible, className, setVisibility}) =>
 	const shouldShowSearch = isVisible ? styles.show : '';
 
 	useEffect(() => {
+		// const target: any = document.querySelector('ais-SearchBox')
+		// if (target && target.style){
+		// 	target.style.display = 'flex';
+		// 	target.style.flexDirection = 'row';
+		// 	target.appendChild(<PoweredBy/>)
+		// }
+		const parent = inputRef.current.parentElement?.parentElement;
+		if (parent){
+			parent.style.display = 'flex'
+			parent.style.flexDirection = 'row';
+			// parent.appendChild(<PoweredBy/>)
+		}
 
 	}, [])
 
@@ -74,11 +85,18 @@ const Search: React.FC<SearchProps> = ({isVisible, className, setVisibility}) =>
 			</div>
 			<div className={styles.margin}>
 				<InstantSearch searchClient={client} indexName="tmlssnss">
+							<PoweredBy/>
 					<SearchBox onChange={onChange} inputRef={inputRef} translations={{placeholder: 'Search for products' }} />
 						<div className={`${styles.hitsWrapper} ${shouldHideResults}`}>
 							<Hits hitComponent={SearchResultItem}/>
 						</div>
 				</InstantSearch>
+				{/* <PoweredBy searchClient={client} indexName="tmlssnss">
+					<SearchBox onChange={onChange} inputRef={inputRef} translations={{placeholder: 'Search for products' }} />
+						<div className={`${styles.hitsWrapper} ${shouldHideResults}`}>
+							<Hits hitComponent={SearchResultItem}/>
+						</div>
+				</PoweredBy> */}
 			</div>
 		</div>
 	)

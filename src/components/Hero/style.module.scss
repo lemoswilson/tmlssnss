@@ -129,14 +129,21 @@ html {
 	
 					.ca {
 						width: fit-content;
-						margin-top: 200px;
+						margin-top: 100px;
 						margin-left: 200px;
 	
 						@media screen and (max-width: 992px) {
 							margin-top: 2%;
 							margin-left: 0;
 							align-self: center;
+							text-align: center;
+
+							button {
+								align-self: center;
+								margin: auto;
+							}
 						}
+
 					}
 	
 					.boots {
@@ -164,7 +171,7 @@ html {
 					.ca {
 						align-self: flex-end;
 						margin-right: 250px;
-						margin-top: 200px;
+						margin-top: 100px;
 	
 						@media screen and (max-width: 992px) {
 							align-self: flex-start;

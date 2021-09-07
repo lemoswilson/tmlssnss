@@ -88,8 +88,8 @@ const Footer: React.FC = () => {
 									<img className={styles.arrow} src={downarrow} alt={'downarrow'} />
 								</div>
 								<ul className={`${styles.topicList} ${toggleAbout}`}>
-									<li className={styles.item}><Link to={'/carreers'}>Carreers</Link></li>
-									<li className={styles.item}><Link to={'/press'}>Press</Link></li>
+									{/* <li className={styles.item}><Link to={'/carreers'}>Carreers</Link></li>
+									<li className={styles.item}><Link to={'/press'}>Press</Link></li> */}
 									<li className={styles.item}><Link to={'/stores'}>Store</Link></li>
 								</ul>
 							</li>
@@ -100,10 +100,14 @@ const Footer: React.FC = () => {
 									<img className={styles.arrow} src={downarrow} alt={'downarrow'} />
 								</div>
 								<ul className={`${styles.topicList} ${toggleCustomer}`}>
-									<li className={styles.item}><Link to={'/help'}>Help</Link></li>
+									{/* <li className={styles.item}><Link to={'/help'}>Help</Link></li>
 									<li className={styles.item}><Link to={'/shipping'}>Shipping</Link></li>
 									<li className={styles.item}><Link to={'/returns'}>Returns</Link></li>
-									<li className={styles.item}><Link to={'/payments'}>Payments</Link></li>
+									<li className={styles.item}><Link to={'/payments'}>Payments</Link></li> */}
+									<li className={styles.item}><Link to={'/info'}>Help</Link></li>
+									<li className={styles.item}><Link to={'/info'}>Shipping</Link></li>
+									<li className={styles.item}><Link to={'/info'}>Returns</Link></li>
+									<li className={styles.item}><Link to={'/info'}>Payments</Link></li>
 									<li className={styles.item}><Link to={'/orders'}>Orders</Link></li>
 								</ul>
 							</li>
@@ -114,8 +118,9 @@ const Footer: React.FC = () => {
 									<img className={styles.arrow} src={downarrow} alt="" />
 								</div>
 								<ul className={`${styles.topicList} ${toggleContact}`}>
-									<li className={styles.item}><Link to={'/tel'}>+1 (831) 295-2230</Link></li>
-									<li className={styles.item}><Link to={'/email'}>Email us</Link></li>
+									{/* <li className={styles.item}><Link to={'/tel'}>+1 (831) 295-2230</Link></li> */}
+									{/* <li className={styles.item}><Link to={'/email'}>Email</Link></li> */}
+									<li className={styles.item}><a href="mailto:wlemosdev@gmail.com">Email</a></li>
 								</ul>
 							</li>
 						</ul>

@@ -1,0 +1,78 @@
+@import '../../style/variables';
+
+html {
+	.login {
+		overflow: hidden;
+		background-color: white;
+		height: 100vh;
+		width: 100%;
+		display: flex;
+		flex-direction: column;
+		justify-content: flex-start;
+		align-items: center;
+
+		@media screen and (min-width: 992px) {
+			min-height: (750px + 145px);
+		}
+
+		@media screen and (max-width: 991px) {
+			min-height: 570px;
+		}
+
+		.headroom {
+			height: 145px;
+			background-color: white;
+			width: 100%;
+
+			@media screen and (max-width: 991px) {
+				height: 56px;
+			}
+		}
+
+		.overlay {
+			width: 100%;
+			// max-width: 450px;
+			// height: 600px;
+			box-shadow: 0 .5rem 1rem rgba(0,0,0,.15);
+			border-radius: 30px;
+
+			display: flex;
+			flex-direction: column;
+			justify-content: flex-start;
+			align-items: center;
+
+			@media screen and (max-width: 420px) {
+
+			}
+
+			h1 {
+				font-family: $bebas;
+				letter-spacing: 1px;
+				margin-top: 40px;
+			}
+
+			.form {
+				margin-top: 20px;
+				width: 100%;
+
+				display: flex;
+				flex-direction: column;
+				align-items: center;
+				justify-content: flex-start;
+
+				p {
+					margin: 0;
+					// border: 1px solid black;
+					width: 100%;
+					text-align: center;
+					max-width: 1000px;
+					padding: 0;
+					font-family: $jost;
+				}
+			}
+
+			
+		}
+	
+	}
+}

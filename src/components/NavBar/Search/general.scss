@@ -1,6 +1,21 @@
 @import '../../../style/variables';
 
 html {
+			.ais-PoweredBy {
+				margin: auto;
+				display: flex;
+				flex-direction: row;
+				align-items: center;
+
+				a {
+					margin-left: 10px;
+				}
+			}
+
+			.ais-SearchBox {
+				margin-top: 10px;
+			}
+
 			.ais-SearchBox-form {
 				background: none;
 				border: none;
