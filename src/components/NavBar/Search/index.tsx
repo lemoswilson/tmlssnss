@@ -7,12 +7,6 @@ import { useEffect } from 'react';
 import x from '../../../assets/svg/x.svg';
 import './general.scss';
 
-
-console.log('keys are',
-	process.env.REACT_APP_PUBLIC_ALGOLIA_APP_ID,
-	process.env.REACT_APP_PUBLIC_ALGOLIA_SEARCH_KEY,
-)
-
 const client = algoliasearch(
 	process.env.REACT_APP_PUBLIC_ALGOLIA_APP_ID,
 	process.env.REACT_APP_PUBLIC_ALGOLIA_SEARCH_KEY,
@@ -20,9 +14,6 @@ const client = algoliasearch(
 
 
 const SearchResultItem: React.FC<any> = ({hit}) => {
-	useEffect(() => {
-		console.log('the hit is', hit);
-	}, [])
 
 	function onClick(path: string){
 		window.location.href = path;
