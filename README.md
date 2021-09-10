@@ -6,7 +6,19 @@ tmlssnss is an e-commerce platform made with React and CommerceJS API, with adde
 
 ## Layout
 
-<img src="https://i.imgur.com/GtsGuQY.png" width="80%" height="80%">
+
+<p float="left">
+<img src="https://i.imgur.com/GtsGuQY.png" width="47%" height="47%">
+<img src="https://i.imgur.com/XtdcCUo.png" width="47%" height="47%">
+</p>
+
+
+
+<p float="left">
+<img src="https://i.imgur.com/KiiEngU.png" width="47%" height="47%">
+<img src="https://i.imgur.com/M35rhl8.png" width="47%" height="47%">
+</p>
+
 
 
 ## Tech Stack
