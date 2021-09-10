@@ -42,7 +42,7 @@ tmlssnss is an e-commerce platform made with React and CommerceJS API, with adde
 
 ## Production
 - Backend: Heroku
-- Frontend: Netlify
+- Frontend: Vercel
 - Database: MongoDB Atlas
 
 ## How to run the app
