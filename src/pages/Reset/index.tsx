@@ -83,7 +83,7 @@ const Reset: React.FC<ResetProps> = ({
 						}
 					})
 
-		} catch (e) {
+		} catch (e: any) {
 			postError(e.response.data.error)
 		}
 	}
@@ -105,6 +105,9 @@ const Reset: React.FC<ResetProps> = ({
 						</div>
 					</div>
 					<button type='submit'>Recover Password</button>
+					<div style={user.errorMessage.length === 0 ? {display: 'none'} : {}} className={styles.field}>
+							<p>{user.errorMessage}</p>
+					</div>
 				</form>
 			</div>	
 		</div>

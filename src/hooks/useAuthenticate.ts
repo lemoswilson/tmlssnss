@@ -12,6 +12,9 @@ export default function useAuthenticate(
 		if (user.isAuthenticated){
 			history.push('/')
 		}
+		if (user.errorMessage){
+			postError('');
+		}
 	}, [])
 
 	function authenticate(token: string, name: string){

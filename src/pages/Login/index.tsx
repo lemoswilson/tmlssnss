@@ -18,6 +18,8 @@ const Login: React.FC<LoginProps> = ({user, updateUser}) => {
 	const { authenticate, postError } = useAuthenticate(user, updateUser);
 
 
+
+
 	async function submit(data: any) {
 		try {
 			axios.post(process.env.REACT_APP_SERVER_URL + '/users/login', data)
@@ -58,7 +60,10 @@ const Login: React.FC<LoginProps> = ({user, updateUser}) => {
 						<div className={styles.forgot}>
 							Forgot your password? Reset it <Link to={'/reset'}>here</Link>
 						</div>
-							<button type='submit'>Sign In</button>
+						<button type='submit'>Sign In</button>
+						<div style={user.errorMessage.length === 0 ? {display: 'none'} : {}} className={styles.forgot}>
+							{user.errorMessage}
+						</div>
 					</form>
 				</div>	
 		</section>

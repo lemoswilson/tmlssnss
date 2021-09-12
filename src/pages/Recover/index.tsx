@@ -31,7 +31,7 @@ const Recover: React.FC<RecoverProps> = ({
 						} 
 					})
 					.catch(e => {postError(e.response.data.error)})
-		} catch (e) {
+		} catch (e: any) {
 			postError(e.response.data.error)
 		}
 	}
@@ -49,6 +49,9 @@ const Recover: React.FC<RecoverProps> = ({
 						</div>
 					</div>
 					<button type='submit'>Reset Password</button>
+					<div style={user.errorMessage.length === 0 ? {display: 'none'} : {}} className={styles.field}>
+						<p>{user.errorMessage}</p>
+					</div>
 				</form>
 			</div>	
 		</div>

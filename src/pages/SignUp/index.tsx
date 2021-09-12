@@ -44,7 +44,7 @@ const SignUp: React.FC<SignUpProps> = ({user, updateUser}) => {
 					else if (e.response.data.error.match('"email"'))
 						postError('Email must be a valid email');
 				})
-		} catch (e) {
+		} catch (e: any) {
 			postError(e.response.data.error)
 		}
 	}
