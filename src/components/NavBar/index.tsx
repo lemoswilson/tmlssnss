@@ -18,6 +18,7 @@ interface NavBar {
 	setMenuState: React.Dispatch<React.SetStateAction<boolean>>,
 	setUserMenu: React.Dispatch<React.SetStateAction<boolean>>,
 	setSearchBar: React.Dispatch<React.SetStateAction<boolean>>,
+	signOut: () => void,
 	showNav: boolean,
 	justAdded: boolean,
 	isSearchVisible: boolean,
@@ -33,6 +34,7 @@ const NavBar: React.FC<NavBar> = ({
 	setMenuState, 
 	setUserMenu, 
 	setSearchBar, 
+	signOut,
 	showNav,
 	message, 
 	userInfo, 
@@ -76,7 +78,7 @@ const NavBar: React.FC<NavBar> = ({
 							userMenu && !userInfo.user.isAuthenticated 
 							? <UnauthenticatedUserMenu className={styles.userMenu}/> 
 							: userMenu && userInfo.user.isAuthenticated
-							? <AuthenticatedUserMenu className={styles.userMenu}/>
+							? <AuthenticatedUserMenu signOut={signOut} className={styles.userMenu}/>
 							: null
 						}
 
@@ -108,6 +110,11 @@ const NavBar: React.FC<NavBar> = ({
 
 interface UserMenuProps {
 	className?: string,
+
+}
+
+interface AuthenticatedUserMenuProps extends UserMenuProps {
+	signOut: () => void,
 }
 
 const UnauthenticatedUserMenu: React.FC<UserMenuProps> = ({className}) => {
@@ -119,11 +126,12 @@ const UnauthenticatedUserMenu: React.FC<UserMenuProps> = ({className}) => {
 	)
 }
 
-const AuthenticatedUserMenu: React.FC<UserMenuProps> = ({className}) => {
+const AuthenticatedUserMenu: React.FC<AuthenticatedUserMenuProps> = ({className, signOut}) => {
 	return (
 		<ul onMouseDown={(e) => {e.stopPropagation()}} className={className}>
 			<li><Link to={'/orders'}>Orders</Link></li>
 			<li className={styles.signup}><Link to={'/updatePassword'}>Update Password</Link></li>
+			<li style={{cursor: 'pointer'}} onClick={signOut} className={styles.signup}>Sign Out</li>
 		</ul>
 	)
 }

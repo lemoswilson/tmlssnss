@@ -56,16 +56,16 @@ export default function useVerify(
 
 
 export function useSignOut(updateUser: React.Dispatch<React.SetStateAction<User>>){
+
 	function signOut() {
-		function signOut() {
-			localStorage.removeItem('tmlssnssJWT')
-			updateUser({
-			  errorMessage: '',
-			  isAuthenticated: false,
-			  token: '',
-			  name: '',
-			})
-		  }
+		localStorage.removeItem('tmlssnssJWT')
+		updateUser({
+			errorMessage: '',
+			isAuthenticated: false,
+			token: '',
+			name: '',
+		})
+		window.location.reload();
 	}
 
 	return signOut;

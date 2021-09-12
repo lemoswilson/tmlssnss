@@ -78,7 +78,7 @@ function App() {
         <BrowserRouter>
           <div onScroll={(e) => {}} onMouseDown={closeMenus}>
             <Menu signOut={signOut} user={user} close={() => setMenuState(false)} menuState={isMenuOpen} />
-            <NavBar showNav={showNav} justAdded={justAdded} setSearchBar={setSearchVisibility} isSearchVisible={isSearchVisible} setUserMenu={setUserMenu} userMenu={userMenu} setMenuState={setMenuState} message={'10% off in your first purchase'} userInfo={{user, updateUser}}/>
+            <NavBar signOut={signOut} showNav={showNav} justAdded={justAdded} setSearchBar={setSearchVisibility} isSearchVisible={isSearchVisible} setUserMenu={setUserMenu} userMenu={userMenu} setMenuState={setMenuState} message={'10% off in your first purchase'} userInfo={{user, updateUser}}/>
             <Overlay isMenuOpen={isMenuOpen} closeMenu={() => setMenuState(false)}/>
             <Switch>
               <Route path={'/info'} render={() => <Info/>} />

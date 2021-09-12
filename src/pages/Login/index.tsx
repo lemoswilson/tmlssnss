@@ -29,10 +29,16 @@ const Login: React.FC<LoginProps> = ({user, updateUser}) => {
 					}
 				})
 				.catch(e => {
+					console.log('[submit:index.ts]: error is', e.response);
+					console.log('[submit:index.ts]: error is', Object.keys(e).map(key => key));
+					console.log('[submit:index.ts]: error is', e.toJSON());
+
 					postError(
-						!e.status 
+						e.response.status === 401
+						? 'Invalid email and password combination, please try again'
+						: e.response.status === 400
 						? 'The server did not response, please try again'
-						: 'There was a problem with the password or username entered'
+						: 'There was an error processing your request, please try again'
 					)
 				})
 		} catch (e: any) {
