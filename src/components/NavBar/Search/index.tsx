@@ -12,7 +12,6 @@ const client = algoliasearch(
 	process.env.REACT_APP_PUBLIC_ALGOLIA_SEARCH_KEY,
 )
 
-
 const SearchResultItem: React.FC<any> = ({hit}) => {
 
 	function onClick(path: string){
